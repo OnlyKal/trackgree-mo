@@ -164,11 +164,12 @@ function RenderAccounts({accounts, navigator, setSelectedUser, setResetPassword,
   let containerRef = React.useRef(null);
   return (
      
-     accounts.map((account, index) => {
+    accounts.length && accounts.map((account, index) => {
       let Icon = AccountTypesIcons(account.privileges.type.split(' ').join('_').toLowerCase());
       if (typeof Icon !== 'object') {
         Icon = AccountTypesIcons('user');
       }
+      account.account_name === null && (account.account_name = account.username);  // if account name is null, set it to username
       return (
           <div className="art_sub_accounts_container" key={index}>
           <div className="art_account_container">

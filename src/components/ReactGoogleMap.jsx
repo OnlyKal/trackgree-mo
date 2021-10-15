@@ -35,10 +35,12 @@ const AnyReactComponent = ({ text, Icon,status, rotation, speed, lat, lng, selec
                 onClick={() => {
                     try {
                       
-                    selectedDeviceRef.current = device;
-                    setShowBottomSheet(true);
-                    map.panTo({lat, lng});
-                    map.setZoom(18);  
+                        selectedDeviceRef.current = device;
+                        setShowBottomSheet(true);
+                        if (map){
+                            map.panTo({lat, lng});
+                            map.setZoom(18);
+                        }
                     } catch (error) {
                         console.log(error);
                     }
@@ -139,11 +141,12 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
          if(isMounted.current){
             if (mapRef.current.getZoom() > 12) {
                 //  get current pan
-                const currentPan = mapRef.current.getCenter();
+                // const currentPan = mapRef.current.getCenter();
                 // pan only if the current pan is not the same as the selected device
-                if(currentPan.lat().toFixed(6) !== selectedDeviceRef.current.lat.toFixed(6) && currentPan.lng().toFixed(6) !==          selectedDeviceRef.current.lng.toFixed(6)) {
+                // if(currentPan.lat().toFixed(6) !== selectedDeviceRef.current.lat.toFixed(6) && currentPan.lng().toFixed(6) !==          selectedDeviceRef.current.lng.toFixed(6)) {
+                // if(typeof selectedDeviceRef.current.status === "string" && selectedDeviceRef.current.status.toLowerCase() === "moving") {
                     mapRef.current.panTo({lat: selectedDeviceRef.current.lat, lng: selectedDeviceRef.current.lng});
-                }
+                // }
                 
             } else {
                 selectedDeviceRef.current = null;
@@ -159,7 +162,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
 
     return (
         <>
-    <div style={{ /* height: '70vh', */ width: '100%' }}>
+    <div style={{ /* height: '70vh', */ width: '100vw' }}>
         <GoogleMapReact
         bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
         yesIWantToUseGoogleMapApiInternals={true}
@@ -183,7 +186,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
                         lable.querySelectorAll('div').length && (lable.querySelectorAll('div')[0].style.cursor= 'default');
                     }
 
-                }, 2000);
+                }, 5000);
          }} 
         >
         {
