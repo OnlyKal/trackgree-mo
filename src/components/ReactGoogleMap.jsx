@@ -152,7 +152,12 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
                 selectedDeviceRef.current = null;
                 // setShowBottomSheet(false);
             }
+         }else {
+             console.log('not mounted');
          }
+    } else {
+        // setShowBottomSheet(false);
+        console.log('no selected device');
     }
     // if (currentTab.toLowerCase() !== 'all') {
     //     if(products.length ===1 &&showBottomSheet ) selectedDeviceRef.current = products[0];
