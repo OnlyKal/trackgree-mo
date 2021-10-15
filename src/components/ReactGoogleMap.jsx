@@ -138,7 +138,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
     };
 
     if (selectedDeviceRef.current) {
-         if(isMounted.current){
+        //  if(isMounted.current){
             if (mapRef.current.getZoom() > 12) {
                 //  get current pan
                 // const currentPan = mapRef.current.getCenter();
@@ -152,9 +152,9 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
                 selectedDeviceRef.current = null;
                 // setShowBottomSheet(false);
             }
-         }else {
-             console.log('not mounted');
-         }
+        //  }else {
+        //      console.log('not mounted');
+        //  }
     } else {
         // setShowBottomSheet(false);
         console.log('no selected device');
