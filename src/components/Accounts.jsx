@@ -33,125 +33,131 @@ let options = [
 ];
 
 function Accounts({navigator, setShowBottomBar, setSelectedUser}) {
-// get user from sessionStorage
-  let _user = JSON.parse(sessionStorage.getItem('user'));
-
-  const [user , setUser] = React.useState(_user);
-  const [accounts , setAccounts] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  const isMounted = React.useRef(false);
-  // clean up on unmount
-  React.useEffect(() => {
-    isMounted.current = true;
-    if (isMounted.current) {
-      setShowBottomBar(false);
-
-      // fetch up on mount
-      fetchAccounts().then((data) => {
-        if('accounts' in data) {
-          setAccounts(data.accounts);
-        }
-        if('user' in data) {
-          setUser(data.user);
-        }
-        setIsLoading(false);
-
-      });
-    }
-    return () => {
-      isMounted.current = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMounted]);
-  let Icon = '', containerRef = React.useRef(null);
-  if(!isLoading && Object.keys(user).length  > 0) {
-   Icon = AccountTypesIcons(user.privileges.type);
-  }
-  if (typeof Icon !== 'object') {
-    Icon = AccountTypesIcons('user');
-  }
-
-  const [_isLoading, _setIsLoading] = React.useState(false);
-  const [statusMsg, setStatusMsg] = React.useState("Loading ...");
-   const [dismissLoader, setDismissLoader] = React.useState(false);
-
-
- const [resetPassword, setResetPassword] = React.useState(false);
- const [resetPasswordUser, setResetPasswordUser] = React.useState(user);
-
-  return (
-    <div className="art_main art_main_initial">
-
-    <Header children={<HeaderEditDevice navigator={navigator} name={"Accounts"} back={'home'} setShowBottomBar={setShowBottomBar} /> } navigator={navigator} />
-    {isLoading && <ArtLoading /> }
-
-    {_isLoading && (dismissLoader)&& <Loader text={statusMsg} dismiss={_setIsLoading}/>}
-    {_isLoading && (!dismissLoader)&& <Loader text={statusMsg} />}
-
-    {resetPassword && <ResetPasswordModal show={resetPassword} setShow={setResetPassword} selectedUser={resetPasswordUser} setSelectedUser={setResetPasswordUser} setStatusMsg={setStatusMsg} setIsLoading={_setIsLoading} setDismissLoader={setDismissLoader} />}
-    
-    <div>
-        {
-          !isLoading && Object.keys(user).length > 0 &&
-        <div className="art_accounts_container">
-         <div className="art_account_container">
-            {/* Dropdown caret*/}
-            {
-              user.totalSubAccounts > 0 && <button className="art_account_dropdown active" onClick={(e)=>handleDropdown(e,user.totalSubAccounts, user.id, navigator, setSelectedUser, setResetPassword, setResetPasswordUser )}> <Caret /> </button>
-            }
-            <button className="art_account_tab" >
-              
-              {/* Icon */}
-              <div className={"art_account_icon "+ user.privileges.type }>
-              {typeof Icon === "object" && <Icon />}
-              </div>
-                  
-              <div className="art_account_name">{user.account_name.trim()==='' ? user.username.split(' ').map((e, i)=>{
-                  if(i<user.username.split(' ').length-1) {
-                      return  <Fragment key={i}>{e}&nbsp;</Fragment>
-                  }
-                  return e
-                })
-                 : user.account_name.split(' ').map((e, i)=>{
-                  if(i<user.account_name.split(' ').length-1) {
-                      return  <Fragment key={i}>{e}&nbsp;</Fragment>
-                  }
-                  return e
-                })
-                }</div>
-                  <div className="art_account_balance">{'('+user.accountDevices +'/'+ user.totalDevices+')'}</div>
-            </button> 
-                <div className="art_account_option" >
-                      {
-                        options.map((option, index) => {
-                          return (
-                            <button className="art_account_option_button" key={index} onClick={()=>option.onClick(navigator, setSelectedUser, user, setResetPassword, setResetPasswordUser)}>
-                              <option.icon />
-                            </button>
-                          );
-                        })
-                      } 
-                </div>
-              </div>
-              
-              {/* Sub Accounts */}
-              {
-                (user.totalSubAccounts > 0 && accounts && accounts.length)&&
-                <div className="art_account_sub_container active" ref={containerRef}>
-                  <RenderAccounts accounts={accounts} navigator={navigator} setSelectedUser={setSelectedUser} setResetPassword={setResetPassword} setResetPasswordUser={setResetPasswordUser} />
-                </div>
-              }
-            </div>
- 
-      }
-    </div>
   
+  // get user from sessionStorage
+    let _user = JSON.parse(sessionStorage.getItem('user'));
+
+    const [user , setUser] = React.useState(_user);
+    const [accounts , setAccounts] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState(true);
+
+    const isMounted = React.useRef(false);
+    // clean up on unmount
+    React.useEffect(() => {
+      isMounted.current = true;
+      if (isMounted.current) {
+        setShowBottomBar(false);
+
+        // fetch up on mount
+        fetchAccounts().then((data) => {
+          if('accounts' in data) {
+            setAccounts(data.accounts);
+          }
+          if('user' in data) {
+            setUser(data.user);
+          }
+          setIsLoading(false);
+
+        });
+      }
+      return () => {
+        isMounted.current = false;
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isMounted]);
+    let Icon = '', containerRef = React.useRef(null);
+    if(!isLoading && Object.keys(user).length  > 0) {
+    Icon = AccountTypesIcons(user.privileges.type);
+    }
+    if (typeof Icon !== 'object') {
+      Icon = AccountTypesIcons('user');
+    }
+
+    const [_isLoading, _setIsLoading] = React.useState(false);
+    const [statusMsg, setStatusMsg] = React.useState("Loading ...");
+    const [dismissLoader, setDismissLoader] = React.useState(false);
 
 
-    </div>
+  const [resetPassword, setResetPassword] = React.useState(false);
+  const [resetPasswordUser, setResetPasswordUser] = React.useState(user);
 
-  );
+  try {
+    return (
+      <div className="art_main art_main_initial">
+
+      <Header children={<HeaderEditDevice navigator={navigator} name={"Accounts"} back={'home'} setShowBottomBar={setShowBottomBar} /> } navigator={navigator} />
+      {isLoading && <ArtLoading /> }
+
+      {_isLoading && (dismissLoader)&& <Loader text={statusMsg} dismiss={_setIsLoading}/>}
+      {_isLoading && (!dismissLoader)&& <Loader text={statusMsg} />}
+
+      {resetPassword && <ResetPasswordModal show={resetPassword} setShow={setResetPassword} selectedUser={resetPasswordUser} setSelectedUser={setResetPasswordUser} setStatusMsg={setStatusMsg} setIsLoading={_setIsLoading} setDismissLoader={setDismissLoader} />}
+      
+      <div>
+          {
+            !isLoading && Object.keys(user).length > 0 &&
+          <div className="art_accounts_container">
+          <div className="art_account_container">
+              {/* Dropdown caret*/}
+              {
+                user.totalSubAccounts > 0 && <button className="art_account_dropdown active" onClick={(e)=>handleDropdown(e,user.totalSubAccounts, user.id, navigator, setSelectedUser, setResetPassword, setResetPasswordUser )}> <Caret /> </button>
+              }
+              <button className="art_account_tab" >
+                
+                {/* Icon */}
+                <div className={"art_account_icon "+ user.privileges.type }>
+                {typeof Icon === "object" && <Icon />}
+                </div>
+                    
+                <div className="art_account_name">{user.account_name.trim()==='' ? user.username.split(' ').map((e, i)=>{
+                    if(i<user.username.split(' ').length-1) {
+                        return  <Fragment key={i}>{e}&nbsp;</Fragment>
+                    }
+                    return e
+                  })
+                  : user.account_name.split(' ').map((e, i)=>{
+                    if(i<user.account_name.split(' ').length-1) {
+                        return  <Fragment key={i}>{e}&nbsp;</Fragment>
+                    }
+                    return e
+                  })
+                  }</div>
+                    <div className="art_account_balance">{'('+user.accountDevices +'/'+ user.totalDevices+')'}</div>
+              </button> 
+                  <div className="art_account_option" >
+                        {
+                          options.map((option, index) => {
+                            return (
+                              <button className="art_account_option_button" key={index} onClick={()=>option.onClick(navigator, setSelectedUser, user, setResetPassword, setResetPasswordUser)}>
+                                <option.icon />
+                              </button>
+                            );
+                          })
+                        } 
+                  </div>
+                </div>
+                
+                {/* Sub Accounts */}
+                {
+                  (user.totalSubAccounts > 0 && accounts && accounts.length)&&
+                  <div className="art_account_sub_container active" ref={containerRef}>
+                    <RenderAccounts accounts={accounts} navigator={navigator} setSelectedUser={setSelectedUser} setResetPassword={setResetPassword} setResetPasswordUser={setResetPasswordUser} />
+                  </div>
+                }
+              </div>
+  
+        }
+      </div>
+    
+
+
+      </div>
+
+    );
+  } catch (error) {
+    console.log(error);
+    window.location.reload();
+  }
 }
 
 function RenderAccounts({accounts, navigator, setSelectedUser, setResetPassword, setResetPasswordUser}) {

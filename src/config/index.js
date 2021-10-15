@@ -1,6 +1,6 @@
 module.exports = {
     API: 'http://api.trackgree.com/api',
-    GOOGLE_API_KEY: 'AIzaSyAdJV9LXQyXqWqa1Sku19Gt6c-UABzTNrQ' || 'AIzaSyCoi_c7bXIaduVOJ5pslTo7QAqT1a8ubec' || 'AIzaSyAsQPm6aaaJoZ49PSObRdCfWOX1MyMP6Eg',
+    GOOGLE_API_KEY: 'AIzaSyAdJV9LXQyXqWqa1Sku19Gt6c-UABzTNrQ',
     GEOCODEAPI: (lat, lng) => `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${require('./index').GOOGLE_API_KEY}`,
     GEOCODEAPI2: (lat, lng) => `https://maps.googleapis.com/maps/api/place/textsearch/json?location=${lat},${lng}&oe=utf-8&key=${require('./index').GOOGLE_API_KEY}`,
     PASSCODE_KEY: "XYzTy5xzLauNaEv014",

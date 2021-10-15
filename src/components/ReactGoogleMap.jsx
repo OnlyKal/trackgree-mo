@@ -79,7 +79,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
     const selectedDeviceRef = React.useRef(null);
 
     const [showBottomSheet,setShowBottomSheet] = React.useState(currentTab.toLowerCase() !== 'all');
-    // console.log(selectedDeviceRef.current);
+  
     React.useEffect(() => {
         let Timer = null;
         isMounted.current = true;
@@ -124,13 +124,14 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
             streetViewControl: false,
             zoomControl: false,
             panControl: true,
+            clickableIcons: false,
             // styles: mapStyle,
-            styles: [
-                {
-                    "featureType": "transit.station",
-                    "stylers": [{ "visibility": "off" }]
-                }
-            ],
+            // styles: [
+            //     {
+            //         "featureType": "transit.station",
+            //         "stylers": [{ "visibility": "off" }]
+            //     }
+            // ],
           }
     };
 
@@ -146,7 +147,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
                 
             } else {
                 selectedDeviceRef.current = null;
-                setShowBottomSheet(false);
+                // setShowBottomSheet(false);
             }
          }
     }
@@ -168,10 +169,21 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
         options={defaultProps.defaultMapOptions}
+        clickableIcons={false}
         styles={true}
         onGoogleApiLoaded={({map, maps}) => {
                 mapRef.current = map;
                 mapsRef.current = maps;
+                setTimeout(() => {
+                    let lable = window.document.querySelector('a[title="Open this area in Google Maps (opens a new window)"]');
+                    if (lable) {
+                        lable.removeAttribute('href');
+                        lable.removeAttribute('target');
+                        lable.removeAttribute('title');
+                        lable.querySelectorAll('div').length && (lable.querySelectorAll('div')[0].style.cursor= 'default');
+                    }
+
+                }, 2000);
          }} 
         >
         {

@@ -33,7 +33,7 @@ function SearchResults({navigator, search, setSearchKeyword,setviewDevice, setCu
         {isLoading && <div className="art_loading">
                 <img src={Loader_img} alt="Loader gif" /></div> }
 
-            <AllTab showMenu={setShowMenu} currentTab={"search?q="+search} setCurrentTab={()=>{}} menuElements={setMenuElements} navigator={navigator} setStatics={()=>{}} statics={{}} id={tabRef} active={true} setIsLoading={setIsLoading} setviewDevice={setviewDevice}isActive={true} showGroups={showGroups} setShowGroups={setShowGroups} setSelectedGroupDevice={setSelectedGroupDevice} setCurrentMapDevice={setCurrentMapDevice} />
+            <AllTab showMenu={setShowMenu} currentTab={"search?q="+search} setCurrentTab={()=>null} menuElements={setMenuElements} navigator={navigator} setStatics={()=>null} statics={{}} id={tabRef} active={true} setIsLoading={setIsLoading} setviewDevice={setviewDevice}isActive={true} showGroups={showGroups} setShowGroups={setShowGroups} setSelectedGroupDevice={setSelectedGroupDevice} setCurrentMapDevice={setCurrentMapDevice} />
     </div>
   );
 }

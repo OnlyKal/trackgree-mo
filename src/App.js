@@ -12,7 +12,7 @@ import { DBConfig } from './components/recentSearchDBConfig';
 import { initDB } from 'react-indexed-db';
 import { useIsMounted } from './components/UseIsMounted.js';
 import BottomBar from './components/BottomBar.jsx';
-// import LogRocket from 'logrocket';
+import LogRocket from 'logrocket';
 import Command from './components/Command.jsx';
 import AddAccount from './components/AddAccount.jsx';
 import Accounts from './components/Accounts.jsx';
@@ -20,7 +20,7 @@ import Profile from './components/Profile.jsx';
 import Map from './components/Map.jsx';
 
 try {
-// LogRocket.init('yk4gzw/trackgree-mo');
+  LogRocket.init('yk4gzw/trackgree-mo');
   initDB(DBConfig);
 } catch (error) {
   console.error(error);
@@ -110,8 +110,10 @@ const [currentMapDevice, setCurrentMapDevice] = useState('all');
             if ( currentPage.trim() !== '' && ( currentPage.toLowerCase() === "editdevice" || currentPage.toLowerCase() === "command" || currentPage.toLowerCase() === "devicedetails")) {
              currentPage = 'Map'
             }
+            if (currentPage.toLowerCase() === "login" && _token !== '') {
+              currentPage = 'Map'
+            }
             setPage(currentPage);
-            // setPage("home");
           } else {
             setToken("");  
             setPage("login");

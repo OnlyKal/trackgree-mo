@@ -51,7 +51,7 @@ export default {
             elementType: "geometry",
             stylers: [{
                 color: "#dfd2ae",
-                visibility: "off"
+                /*  visibility: "off" */
             }, ],
         },
         {
@@ -151,7 +151,7 @@ export default {
             elementType: "geometry",
             stylers: [{
                 color: "#dfd2ae",
-                visibility: "off"
+                /*  visibility: "off" */
             }, ],
         },
         {

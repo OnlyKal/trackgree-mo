@@ -7,9 +7,6 @@ const handleShowDetails = (e, product,setviewDevice, navigator) => {
     navigator('deviceDetails');
 };
 
-
-// const handleRemotePowerControl = (e, product,setviewDevice, navigator) => {
-// };
 const handleSetGroup = (e, product,setSelectedGroupDevice, setShowGroups) => {
     setSelectedGroupDevice(product);
     setShowGroups(true);
@@ -74,7 +71,7 @@ export default function ProductList({status, product={}, showMenu,menuElements, 
             
         }
     };
-    
+
     return (
         <div className={status?"art_product_co "+ handleStatus(status, product).split(' ').join('') :"art_product_co"}>
             <div className="art_product_icon" onClick={(status !== "nodata"&&/* handleStatus(status,product) !== "nosignal" &&  */status !== "static")?(e)=>handlePClick(e, product):null}>

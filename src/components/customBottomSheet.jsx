@@ -55,6 +55,7 @@ function CustomBottomSheet({selectedDeviceRef, setShowBottomSheet, mapRef}) {
         }
     }
 
+    
     let sensors =[
         'acc', 'gpslev', /* 'batl', */ /* 'gps', */
     ]

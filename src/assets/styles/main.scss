@@ -26,7 +26,8 @@ $productOrder: 5;
     --bottombarHeight: calc(var(--initialBottomBarHeight) + var(--bottombarBorderHeight));
     --skinBgColor: #f4f5f7;
     --bootSheetHeight: 0px;
-    --mapHeight: calc((100vh - ( var(--bottombarHeight)) + var(--bottombarBorderHeight) - var(--bootSheetHeight)))
+    --bottombarHeightBottombarBorderHeight: clac(var(--bottombarHeight) + var(--bottombarBorderHeight));
+    --mapHeight: calc(100vh - var(--bottombarHeightBottombarBorderHeight) - var(--bootSheetHeight))
 }
 
 body {
@@ -793,7 +794,7 @@ body {
             // -ms-flex-direction: column;
             // flex-direction: column;
             >div:first-of-type() {
-                height: var(--mapHeight);
+                height: calc(100vh - var(--bottombarHeight) - var(--bottombarBorderHeight) - var(--bootSheetHeight));
                 // -webkit-box-flex: 1;
                 // -ms-flex: 1;
                 // flex: 1;
@@ -913,7 +914,7 @@ body {
                         display: -ms-flexbox;
                         display: flex;
                         -ms-flex-pack: distribute;
-                            justify-content: space-around;
+                        justify-content: space-around;
                         -webkit-box-flex: 1;
                         -ms-flex: 1;
                         flex: 1;

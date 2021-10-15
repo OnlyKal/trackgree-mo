@@ -11,7 +11,7 @@ function fetchProducts(currentTab = '') {
     }).then((response) => {
         return response.data
     }).catch((error) => {
-        // console.error(error);
+
         return error;
     });
 }
@@ -29,7 +29,7 @@ function fetchStats(setStatics = () => null) {
         }
 
     }).catch((error) => {
-        // console.error(error);
+
         return error;
     });
 }
@@ -38,7 +38,6 @@ function fetchProductsContinuously(Timer, currentTab, products, setProducts, set
     try {
 
         fetchStats(setStatics);
-        // let ErrorRetryTimer;
         return /* setInterval(() => { */ fetchProducts(currentTab).then((_products) => {
             if ('data' in _products) {
                 if (JSON.stringify(products) !== JSON.stringify(_products)) {
@@ -50,16 +49,9 @@ function fetchProductsContinuously(Timer, currentTab, products, setProducts, set
             }
         }).catch((error) => {
 
-            // clearInterval(Timer);
-            // clearTimeout(ErrorRetryTimer);
-            // ErrorRetryTimer = setTimeout(fetchProductsContinuously, 1000, Timer, currentTab, products, setProducts, setLoading, setStatics);
-            // setLoading(false);
-
-            // console.error(error);
             return error;
         });
     } catch (error) {
-        // console.error(error);
         return error;
     }
     /* }, 10000 / 1); */
@@ -106,7 +98,6 @@ function fetchGroups() {
     }).then((response) => {
         return response.data;
     }).catch((error) => {
-        // console.error(error);
         return error;
     });
 }
@@ -157,7 +148,6 @@ function fetchAccounts() {
     }).then((response) => {
         return response.data;
     }).catch((error) => {
-        // console.error(error);
         return error;
     });
 }
@@ -170,7 +160,6 @@ function fetchAccountsByID(id) {
     }).then((response) => {
         return response.data;
     }).catch((error) => {
-        // console.error(error);
         return error;
     });
 }
@@ -183,7 +172,6 @@ function fetchAccountTypes(type) {
     }).then((response) => {
         return response.data;
     }).catch((error) => {
-        // console.error(error);
         return error;
     });
 }
@@ -224,8 +212,6 @@ function updateAccountPassword(data) {
 function logout() {
     localStorage.clear();
     sessionStorage.clear();
-    // indexedDB.deleteDatabase('searchDB');
-
     window.location.reload();
 }
 

@@ -5,8 +5,6 @@ import {createAccount, fetchAccountTypes,} from './fetchProducts'
 import HeaderEditDevice from './HeaderEditDevice.jsx';
 import  Button  from './Button.jsx';
 import { X } from 'react-feather';
-// import axios from 'axios';
-// import { API } from '../config/index.js';
 import Loader from "./Loader.jsx";
 
 
@@ -164,27 +162,26 @@ const [statusMsg, setStatusMsg] = React.useState("Loading ...");
                    
                     // check if field is required
                     if(field.required && field.ref.current?.value?.trim() === '') {
-                        if(field.element === 'select') {
-                            
-                        }
-                        isValid = false;
-                        return invalidMsg = invalidMsg.replace('[field]', field.label);
+                        isValid = false; 
+                        invalidMsg = invalidMsg.replace('[field]', field.label);
+                        return invalidMsg;
                     }
                     // email validation
                     if(field.type === 'email' && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(field.value)) {
                         isValid = false;
-                        return message = 'Invalid email address';
+                        message = 'Invalid email address';
+                        return message
                     }
                     // phone validation with country code optional
                     if(field.type === 'tel' && !/^\+?[0-9]{6,}$/i.test(field.value)) {
-                        isValid = false;
-                        return message = 'Invalid phone number';
+                        isValid = false;message = 'Invalid phone number';
+                        return message;
                     }
                     
                     // password validation
                     if(field.type === 'password' && field.value.length < 6) {
-                        isValid = false;
-                        return message = 'Password must be at least 6 characters long';
+                        isValid = false;message = 'Password must be at least 6 characters long';
+                        return message;
                     }
                 }
                 );
