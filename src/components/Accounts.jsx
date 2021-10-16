@@ -35,53 +35,57 @@ let options = [
 function Accounts({navigator, setShowBottomBar, setSelectedUser}) {
   
   // get user from localStorage
-    let _user = JSON.parse(localStorage.getItem('user'));
+  let _user = JSON.parse(localStorage.getItem('user'));
 
-    const [user , setUser] = React.useState(_user);
-    const [accounts , setAccounts] = React.useState([]);
-    const [isLoading, setIsLoading] = React.useState(true);
+  const [user , setUser] = React.useState(_user);
+  const [accounts , setAccounts] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
-    const isMounted = React.useRef(false);
-    // clean up on unmount
-    React.useEffect(() => {
-      isMounted.current = true;
-      if (isMounted.current) {
-        setShowBottomBar(false);
+  const isMounted = React.useRef(false);
+  // clean up on unmount
+  React.useEffect(() => {
+    isMounted.current = true;
+    if (isMounted.current) {
+      setShowBottomBar(false);
 
-        // fetch up on mount
-        fetchAccounts().then((data) => {
-          if('accounts' in data) {
-            setAccounts(data.accounts);
-          }
-          if('user' in data) {
-            setUser(data.user);
-          }
-          setIsLoading(false);
+      // fetch up on mount
+      fetchAccounts().then((data) => {
+        if('accounts' in data) {
+          setAccounts(data.accounts);
+        }
+        if('user' in data) {
+          setUser(data.user);
+        }
+        setIsLoading(false);
 
-        });
-      }
-      return () => {
-        isMounted.current = false;
-      };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isMounted]);
-    let Icon = '', containerRef = React.useRef(null);
-    if(!isLoading && Object.keys(user).length  > 0) {
-    Icon = AccountTypesIcons(user.privileges.type);
+      });
     }
-    if (typeof Icon !== 'object') {
-      Icon = AccountTypesIcons('user');
-    }
+    return () => {
+      isMounted.current = false;
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMounted]);
 
-    const [_isLoading, _setIsLoading] = React.useState(false);
-    const [statusMsg, setStatusMsg] = React.useState("Loading ...");
-    const [dismissLoader, setDismissLoader] = React.useState(false);
+
+  const [_isLoading, _setIsLoading] = React.useState(false);
+  const [statusMsg, setStatusMsg] = React.useState("Loading ...");
+  const [dismissLoader, setDismissLoader] = React.useState(false);
 
 
   const [resetPassword, setResetPassword] = React.useState(false);
   const [resetPasswordUser, setResetPasswordUser] = React.useState(user);
 
+  let Icon = '', containerRef = React.useRef(null);
+
   try {
+
+    if(!isLoading && Object.keys(user).length  > 0) {
+      Icon = AccountTypesIcons(user.privileges.type);
+    }
+    if (typeof Icon !== 'object') {
+      Icon = AccountTypesIcons('user');
+    }
+
     return (
       <div className="art_main art_main_initial">
 
