@@ -127,8 +127,8 @@ let createAccountElements = [
     
 
 const [data , setData] = React.useState(createAccountElements);
- // Get previousPage from sessionStorage
- let previousPage = sessionStorage.getItem('previousPage');
+ // Get previousPage from localStorage
+ let previousPage = localStorage.getItem('previousPage');
  previousPage = (previousPage === null ? 'home' : previousPage);
 const [isLoading, setIsLoading] = React.useState(false);
 const [statusMsg, setStatusMsg] = React.useState("Loading ...");

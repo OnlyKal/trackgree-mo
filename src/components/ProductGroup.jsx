@@ -43,7 +43,7 @@ function handleClick(e,name, groupContainer, length,setActiveGroup, navigator) {
 }
 
 function setActiveGroup(status, name) {
-  sessionStorage.setItem('activeGroup'+parseGroupName(name), status);
+  localStorage.setItem('activeGroup'+parseGroupName(name), status);
 }
 function parseGroupName(groupName='') {
   groupName = String(groupName);
@@ -54,7 +54,7 @@ function parseGroupName(groupName='') {
 
 function ProductGroup({products, name="Default Group", showMenu, menuElements, index, setviewDevice, navigator, showGroups, setShowGroups,setSelectedGroupDevice,  setCurrentMapDevice, }) {
     let groupContainer = React.useRef();
-    let activeGroup = sessionStorage.getItem('activeGroup'+parseGroupName(name)) === null? undefined: sessionStorage.getItem('activeGroup'+parseGroupName(name));
+    let activeGroup = localStorage.getItem('activeGroup'+parseGroupName(name)) === null? undefined: localStorage.getItem('activeGroup'+parseGroupName(name));
 
   return (
     <div className={"art_groups_co "}>

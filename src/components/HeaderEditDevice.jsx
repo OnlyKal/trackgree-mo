@@ -10,8 +10,8 @@ function HeaderEditDevice({navigator,setShowBottomBar, name="Edit Device", back=
           if (typeof setShowBottomBar === 'function') { setShowBottomBar(true); }
           if (typeof setSelectedUser === 'function') { 
             // current login user
-            // get user in sessionStorage
-            setSelectedUser(JSON.parse(sessionStorage.getItem('user')));
+            // get user in localStorage
+            setSelectedUser(JSON.parse(localStorage.getItem('user')));
           }
           navigator(back)
           }} className="art_null art_back_btn" children={<Back />} />

@@ -83,17 +83,17 @@ function App() {
 
   const isMounted = useIsMounted();
   const [selectedUser, setSelectedUser] = useState(
-    JSON.parse(sessionStorage.getItem('user')) 
+    JSON.parse(localStorage.getItem('user')) 
   );
   // Save previous page to session storage
   const setPage = (page) => {
     
     if ( currentPage.trim() !== '' && (currentPage.toLowerCase() !== "editdevice" )) {
-      sessionStorage.setItem('previousPage', currentPage);
+      localStorage.setItem('previousPage', currentPage);
     } else {
-      sessionStorage.setItem('previousPage', 'map');
+      localStorage.setItem('previousPage', 'map');
     }
-    sessionStorage.setItem('currentPage', page);
+    localStorage.setItem('currentPage', page);
     _setPage(page);
   }
 const [currentMapDevice, setCurrentMapDevice] = useState('all');
@@ -102,13 +102,15 @@ const [currentMapDevice, setCurrentMapDevice] = useState('all');
       _token === null && getToken().then(verifiedToken =>{
           if(verifiedToken&&verifiedToken.status === 'success') {
             setToken(verifiedToken.token);
-            sessionStorage.setItem('user', JSON.stringify( verifiedToken.data));
+            localStorage.setItem('user', JSON.stringify( verifiedToken.data));
 
-            // get previous page from sessionStorage
-            let currentPage = sessionStorage.getItem('currentPage');
+            // get previous page from localStorage
+            let currentPage = localStorage.getItem('currentPage');
             
-            if ( currentPage.trim() !== '' && ( currentPage.toLowerCase() === "editdevice" || currentPage.toLowerCase() === "command" || currentPage.toLowerCase() === "devicedetails")) {
+            if (currentPage&& currentPage.trim() !== '' && ( currentPage.toLowerCase() === "editdevice" || currentPage.toLowerCase() === "command" || currentPage.toLowerCase() === "devicedetails")) {
              currentPage = 'Map'
+            }else {
+              currentPage === null && (currentPage = 'Map') && localStorage.setItem('currentPage', 'Map');
             }
             if (currentPage.toLowerCase() === "login" && _token !== '') {
               currentPage = 'Map'

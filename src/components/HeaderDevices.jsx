@@ -5,7 +5,7 @@ import {ReactComponent as User} from '../assets/images/user_driver.svg';
 import Button from './Button.jsx';
 
 export default function HeaderDevices({navigator, }) {
-    let currentUser = JSON.parse(sessionStorage.getItem('user'));
+    let currentUser = JSON.parse(localStorage.getItem('user'));
     return (
         <>
             <div className="art_option">

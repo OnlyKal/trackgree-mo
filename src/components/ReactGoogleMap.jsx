@@ -107,7 +107,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ isMounted]);
 
-    const user = JSON.parse(sessionStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user'));
     const {lat, lng} = user;
 
     const defaultProps = {

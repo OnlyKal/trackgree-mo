@@ -47,8 +47,8 @@ const [isLoading, setIsLoading] = React.useState(false);
 const [statusMsg, setStatusMsg] = React.useState("Loading ...");
 const [dismissLoader, setDismissLoader] = React.useState(false);
 
-//  Get user from sessionStorage
-const user = JSON.parse(sessionStorage.getItem('user'));
+//  Get user from localStorage
+const user = JSON.parse(localStorage.getItem('user'));
 
   return (
     <div className="art_main art_main_initial">

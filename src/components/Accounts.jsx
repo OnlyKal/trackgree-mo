@@ -34,8 +34,8 @@ let options = [
 
 function Accounts({navigator, setShowBottomBar, setSelectedUser}) {
   
-  // get user from sessionStorage
-    let _user = JSON.parse(sessionStorage.getItem('user'));
+  // get user from localStorage
+    let _user = JSON.parse(localStorage.getItem('user'));
 
     const [user , setUser] = React.useState(_user);
     const [accounts , setAccounts] = React.useState([]);

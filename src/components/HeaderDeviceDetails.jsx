@@ -10,8 +10,8 @@ function HeaderDeviceDetails({navigator, }) {
             <div className="art_option">
                 <Button onClick={()=>{
                     
-                  // get previous page from sessionStorage
-                  let previousPage = sessionStorage.getItem('previousPage');
+                  // get previous page from localStorage
+                  let previousPage = localStorage.getItem('previousPage');
                   previousPage = previousPage ? previousPage : 'search';
                   navigator(previousPage)
                     // navigator('home')
