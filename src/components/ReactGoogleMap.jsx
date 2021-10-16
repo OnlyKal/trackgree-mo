@@ -18,10 +18,10 @@ const mapIcons = {
 
 
 function fetchProductsContinuously (Timer, type, setProducts) {
-    fetchProducts(type).then(res=>results(res, Timer, setProducts));
+    return fetchProducts(type).then(res=>results(res, Timer, setProducts));
 }
 
-const AnyReactComponent = ({ text, Icon,status, rotation, speed, lat, lng, selectedDeviceRef, device, map, setShowBottomSheet}) => {
+const AnyReactComponent = ({ text, Icon,status, rotation, speed, lat, lng, selectedDeviceRef, device, map, setShowBottomSheet, maps}) => {
 
     return (
         <div className="art_map_marker" >
@@ -37,9 +37,25 @@ const AnyReactComponent = ({ text, Icon,status, rotation, speed, lat, lng, selec
                       
                         selectedDeviceRef.current = device;
                         setShowBottomSheet(true);
-                        if (map){
+                        if (maps && map){
                             map.panTo({lat, lng});
-                            map.setZoom(18);
+                            map.setZoom(15);
+                            // const bounds = new maps.LatLngBounds();
+         
+                            // if(device.lat && device.lng) {
+                            //     bounds.extend(new maps.LatLng(device.lat, device.lng));
+
+                            //     // fit map bounds
+                            //     map.fitBounds(bounds, {
+                            //         lat: 0.01,
+                            //         lng: 0.01
+                            //         }
+                            //     );
+                            // }
+        
+
+                        } else {
+                            console.log(maps);
                         }
                     } catch (error) {
                         console.log(error);
@@ -64,21 +80,24 @@ function results (res, Timer, setProducts, showBottomSheet, selectedDeviceRef) {
         
         setProducts(devices);
 
-        if(devices.length ===1&&showBottomSheet) selectedDeviceRef.current = devices[0];
+        if(devices.length ===1) return devices[0];
+        return null
 
     } catch (error) {
         console.log(error);
+        return null;
     }
 }
 
 function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
     const [products, setProducts] = React.useState([]);
-    const isMounted = React.useRef(true);
+    const isMounted = React.useRef();
 
     const mapRef = React.useRef(null);
     const mapsRef = React.useRef(null);
 
     const selectedDeviceRef = React.useRef(null);
+    const firstLoad = React.useRef(true);
 
     const [showBottomSheet,setShowBottomSheet] = React.useState(currentTab.toLowerCase() !== 'all');
   
@@ -91,18 +110,27 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
         }
         if(isMounted.current) {
             fetchProducts(currentTab||'All').then(res => {
-                results(res, Timer, setProducts,showBottomSheet, selectedDeviceRef);
+                let rs = results(res, Timer, setProducts,showBottomSheet, selectedDeviceRef);
+                if (rs && currentTab.toLowerCase() !=='all') {
+                    selectedDeviceRef.current = rs;
+                }
             });
             
-            Timer = setInterval(() => fetchProductsContinuously(Timer,currentTab||'All', setProducts), 10000/1);
+            Timer = setInterval(() => {
+                let rs = fetchProductsContinuously(Timer,currentTab||'All', setProducts);
+                    rs.then(rs=>{
+                        if(rs && currentTab.toLowerCase() !=='all') {
+                            selectedDeviceRef.current = rs; 
+                        }
+                    });
+            }, 10000/1);
+
         }
         
         return () => {
-            if (!isMounted.current) {
-                clearInterval(Timer);
-            }
-            isMounted.current = false;
             setCurrentMapDevice('All');
+            isMounted.current = false;
+            clearInterval(Timer);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ isMounted]);
@@ -136,37 +164,65 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
             // ],
           }
     };
+    
+    if(products.length === 1 && currentTab.toLowerCase() !== 'all') {
+        selectedDeviceRef.current = products[0];
+
+        if (mapRef.current && mapRef.current.getZoom() <= 10) {
+            //  get current pan
+            const currentPan = mapRef.current.getCenter();
+            // pan only if the current pan is not the same as the selected device
+            if(currentPan.lat().toFixed(6) !== selectedDeviceRef.current.lat.toFixed(6) && currentPan.lng().toFixed(6) !== selectedDeviceRef.current.lng.toFixed(6)) {
+                mapRef.current.panTo({lat: selectedDeviceRef.current.lat, lng: selectedDeviceRef.current.lng});
+                mapRef.current.panBy(selectedDeviceRef.current.lat, selectedDeviceRef.current.lng);
+            }
+            mapRef.current.setZoom(11);
+        }
+    }
 
     if (selectedDeviceRef.current) {
-        //  if(isMounted.current){
-            if (mapRef.current.getZoom() > 12) {
+        let prod = selectedDeviceRef.current
+        if(isMounted.current){
+            if (mapRef.current.getZoom() > 10) {
                 //  get current pan
-                // const currentPan = mapRef.current.getCenter();
+                const currentPan = mapRef.current.getCenter();
                 // pan only if the current pan is not the same as the selected device
-                // if(currentPan.lat().toFixed(6) !== selectedDeviceRef.current.lat.toFixed(6) && currentPan.lng().toFixed(6) !==          selectedDeviceRef.current.lng.toFixed(6)) {
-                // if(typeof selectedDeviceRef.current.status === "string" && selectedDeviceRef.current.status.toLowerCase() === "moving") {
-                    mapRef.current.panTo({lat: selectedDeviceRef.current.lat, lng: selectedDeviceRef.current.lng});
-                // }
-                
+                if(currentPan.lat().toFixed(6) !== prod.lat.toFixed(6) && currentPan.lng().toFixed(6) !== prod.lng.toFixed(6)) {
+                    if(typeof prod.status === "string" && prod.status.toLowerCase() === "moving") {
+                        mapRef.current.panTo({lat: prod.lat, lng: prod.lng});
+                        mapRef.current.panBy(prod.lat, prod.lng);
+                    }
+                }
             } else {
                 selectedDeviceRef.current = null;
                 document.documentElement.style.setProperty('--bootSheetHeight', `0px`);
-                // setShowBottomSheet(false);
             }
-        //  }
+        }
     } else {
-        // setShowBottomSheet(false);
         document.documentElement.style.setProperty('--bootSheetHeight', `0px`);
     }
-    // if (currentTab.toLowerCase() !== 'all') {
-    //     if(products.length ===1 &&showBottomSheet ) selectedDeviceRef.current = products[0];
-    // }
+
+    if (products.length && selectedDeviceRef.current === null && firstLoad.current) {
+        // pan to all the products by there lat/lng
+        if(mapRef.current && mapsRef.current) {
+            // get lat/lng of all the products
+            const bounds = new mapsRef.current.LatLngBounds();
+            products.forEach(product => {
+                if(product.lat && product.lng) {
+                    bounds.extend(new mapsRef.current.LatLng(product.lat, product.lng));
+                }
+            });
+            // fit map bounds
+            mapRef.current.fitBounds(bounds);
+            firstLoad.current = false;
+        }
+    }
     
     if (!showBottomSheet) document.documentElement.style.setProperty('--bootSheetHeight', `0px`);
 
     return (
         <>
-    <div style={{ /* height: '70vh', */ width: '100vw' }}>
+    <div style={{ /* height: '70vh', */ width: '100%' }}>
         <GoogleMapReact
         bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
         yesIWantToUseGoogleMapApiInternals={true}
@@ -215,6 +271,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
                         status={car.status}
                         speed={car.speed}
                         map={mapRef.current}
+                        maps={mapsRef.current}
                         device={car}
                         selectedDeviceRef={selectedDeviceRef}
                         setShowBottomSheet={setShowBottomSheet}
