@@ -155,7 +155,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
             }
         //  }
     } else {
-        setShowBottomSheet(false);
+        // setShowBottomSheet(false);
         document.documentElement.style.setProperty('--bootSheetHeight', `0px`);
     }
     // if (currentTab.toLowerCase() !== 'all') {
