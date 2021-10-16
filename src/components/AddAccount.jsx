@@ -10,6 +10,8 @@ import Loader from "./Loader.jsx";
 
 
 function AddAccount({navigator, setShowBottomBar, selectedUser, setSelectedUser }) {
+    
+selectedUser = selectedUser || JSON.parse(localStorage.getItem('user'));
 
 const [accountTypes, setAccountTypes] = React.useState({});
     // useEffect and clean up after 
