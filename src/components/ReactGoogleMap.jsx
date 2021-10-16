@@ -153,12 +153,9 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
                 document.documentElement.style.setProperty('--bootSheetHeight', `0px`);
                 // setShowBottomSheet(false);
             }
-        //  }else {
-        //      console.log('not mounted');
         //  }
     } else {
-        // setShowBottomSheet(false);
-        console.log('no selected device');
+        setShowBottomSheet(false);
         document.documentElement.style.setProperty('--bootSheetHeight', `0px`);
     }
     // if (currentTab.toLowerCase() !== 'all') {
