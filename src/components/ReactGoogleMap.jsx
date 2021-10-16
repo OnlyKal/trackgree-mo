@@ -5,7 +5,7 @@ import  {ReactComponent as CarIdling} from '../assets/images/mapIcons/single/car
 import  {ReactComponent as CarMoving} from '../assets/images/mapIcons/single/car_moving.svg'
 import  {ReactComponent as CarStopped} from '../assets/images/mapIcons/single/car_stopped.svg'
 import  {ReactComponent as CarOffline} from '../assets/images/mapIcons/single/car_offline.svg'
-// import mapStyle from './mapStyle';
+
 import { fetchProducts } from './fetchProducts';
 import CustomBottomSheet from './customBottomSheet';
 
@@ -150,6 +150,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
                 
             } else {
                 selectedDeviceRef.current = null;
+                document.documentElement.style.setProperty('--bootSheetHeight', `0px`);
                 // setShowBottomSheet(false);
             }
         //  }else {
@@ -158,12 +159,13 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
     } else {
         // setShowBottomSheet(false);
         console.log('no selected device');
+        document.documentElement.style.setProperty('--bootSheetHeight', `0px`);
     }
     // if (currentTab.toLowerCase() !== 'all') {
     //     if(products.length ===1 &&showBottomSheet ) selectedDeviceRef.current = products[0];
     // }
     
-
+    if (!showBottomSheet) document.documentElement.style.setProperty('--bootSheetHeight', `0px`);
 
     return (
         <>
@@ -226,6 +228,8 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
             }) 
  
         }
+
+        
         
     </GoogleMapReact>
     {showBottomSheet &&
