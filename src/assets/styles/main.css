@@ -375,6 +375,20 @@ body #root {
   -ms-flex: 1;
   flex: 1;
   text-align: center;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  max-width: 60%;
+  overflow: hidden;
+}
+
+.App .art_main .art_header .art_header_container .art_option:nth-child(2) * {
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.App .art_main .art_header .art_header_container .art_option.accounts {
+  max-width: 100%;
 }
 
 .App .art_main .art_header .art_header_container .art_option:nth-child(3) button svg {
@@ -410,7 +424,7 @@ body #root {
 
 .App .art_main .art_header .art_header_container .art_option .art_btn .art_back_btn svg {
   width: 20px;
-  height: 35px;
+  height: 25px;
 }
 
 .App .art_main .art_header .art_header_container .art_option .art_search_form {
@@ -2473,15 +2487,7 @@ body #root {
   cursor: pointer;
   position: absolute;
   background-color: transparent;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+  display: block;
   border: none;
 }
 
@@ -2497,6 +2503,7 @@ body #root {
   -webkit-transform: rotate(0);
   -ms-transform: rotate(0);
   transform: rotate(0);
+  vertical-align: middle;
 }
 
 .App .art_accounts_container .art_account_container .art_account_dropdown.active svg {

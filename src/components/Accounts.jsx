@@ -89,7 +89,7 @@ function Accounts({navigator, setShowBottomBar, setSelectedUser}) {
     return (
       <div className="art_main art_main_initial">
 
-      <Header children={<HeaderEditDevice navigator={navigator} name={"Accounts"} back={'home'} setShowBottomBar={setShowBottomBar} /> } navigator={navigator} />
+      <Header children={<HeaderEditDevice navigator={navigator} name={"Accounts"} back={'home'} setShowBottomBar={setShowBottomBar} className="accounts" /> } navigator={navigator} />
       {isLoading && <ArtLoading /> }
 
       {_isLoading && (dismissLoader)&& <Loader text={statusMsg} dismiss={_setIsLoading}/>}
@@ -104,7 +104,7 @@ function Accounts({navigator, setShowBottomBar, setSelectedUser}) {
           <div className="art_account_container">
               {/* Dropdown caret*/}
               {
-                user.totalSubAccounts > 0 && <button className="art_account_dropdown active" onClick={(e)=>handleDropdown(e,user.totalSubAccounts, user.id, navigator, setSelectedUser, setResetPassword, setResetPasswordUser )}> <Caret /> </button>
+                user.totalSubAccounts > 0 && <button className="art_account_dropdown active" onClick={(e)=>handleDropdown(e,user.totalSubAccounts, user.id, navigator, setSelectedUser, setResetPassword, setResetPasswordUser, setShowBottomBar )}> <Caret /> </button>
               }
               <button className="art_account_tab" >
                 
@@ -113,7 +113,12 @@ function Accounts({navigator, setShowBottomBar, setSelectedUser}) {
                 {typeof Icon === "object" && <Icon />}
                 </div>
                     
-                <div className="art_account_name">{user.account_name.trim()==='' ? user.username.split(' ').map((e, i)=>{
+                <div className="art_account_name" onClick={(e)=>{
+                  localStorage.setItem('selectedUser', JSON.stringify(user));
+                  navigator('Home');
+                  setShowBottomBar(true);
+                }}>
+                  {user.account_name.trim()==='' ? user.username.split(' ').map((e, i)=>{
                     if(i<user.username.split(' ').length-1) {
                         return  <Fragment key={i}>{e}&nbsp;</Fragment>
                     }
@@ -145,7 +150,7 @@ function Accounts({navigator, setShowBottomBar, setSelectedUser}) {
                 {
                   (user.totalSubAccounts > 0 && accounts && accounts.length)&&
                   <div className="art_account_sub_container active" ref={containerRef}>
-                    <RenderAccounts accounts={accounts} navigator={navigator} setSelectedUser={setSelectedUser} setResetPassword={setResetPassword} setResetPasswordUser={setResetPasswordUser} />
+                    <RenderAccounts accounts={accounts} navigator={navigator} setSelectedUser={setSelectedUser} setResetPassword={setResetPassword} setResetPasswordUser={setResetPasswordUser} setShowBottomBar={setShowBottomBar} />
                   </div>
                 }
               </div>
@@ -164,7 +169,7 @@ function Accounts({navigator, setShowBottomBar, setSelectedUser}) {
   }
 }
 
-function RenderAccounts({accounts, navigator, setSelectedUser, setResetPassword, setResetPasswordUser}) {
+function RenderAccounts({accounts, navigator, setSelectedUser, setResetPassword, setResetPasswordUser, setShowBottomBar}) {
   let containerRef = React.useRef(null);
   return (
      
@@ -179,7 +184,7 @@ function RenderAccounts({accounts, navigator, setSelectedUser, setResetPassword,
           <div className="art_account_container">
               {/* Dropdown caret*/}
               {
-                account.totalSubAccounts > 0 && <button className="art_account_dropdown" onClick={(e)=>handleDropdown(e,account.totalSubAccounts, account.id, navigator, setSelectedUser,setResetPassword,setResetPasswordUser )}> <Caret /> </button>
+                account.totalSubAccounts > 0 && <button className="art_account_dropdown" onClick={(e)=>handleDropdown(e,account.totalSubAccounts, account.id, navigator, setSelectedUser,setResetPassword,setResetPasswordUser, setShowBottomBar )}> <Caret /> </button>
               }
             <button className="art_account_tab" key={index}>
               
@@ -190,7 +195,11 @@ function RenderAccounts({accounts, navigator, setSelectedUser, setResetPassword,
                 }
               </div>
              
-              <div className="art_account_name">{account.account_name.trim()==='' ? account.username.split(' ').map((e, i)=>{
+              <div className="art_account_name" onClick={(e)=>{
+                  localStorage.setItem('selectedUser', JSON.stringify(account));
+                  setShowBottomBar(true);
+                  navigator('Home');
+                }}>{account.account_name.trim()==='' ? account.username.split(' ').map((e, i)=>{
                   if(i<account.username.split(' ').length-1) {
                       return  <Fragment key={i}>{e}&nbsp;</Fragment>
                   }
@@ -231,7 +240,7 @@ function RenderAccounts({accounts, navigator, setSelectedUser, setResetPassword,
   )
 }
 
-function handleDropdown(e, len, id, navigator, setSelectedUser, setResetPassword, setResetPasswordUser) {
+function handleDropdown(e, len, id, navigator, setSelectedUser, setResetPassword, setResetPasswordUser, setShowBottomBar) {
   let subAccount = e.currentTarget.parentElement.parentElement.querySelector('.art_account_sub_container');
   e.currentTarget.classList.toggle('active');
 
@@ -259,7 +268,7 @@ function handleDropdown(e, len, id, navigator, setSelectedUser, setResetPassword
         if(subAccount.querySelector('.art_loading')) {
           fetchAccountsByID(id).then(data => {
             if ('accounts' in data && data.accounts.length > 0) {
-              reactDom.render(<RenderAccounts accounts={data['accounts']} navigator={navigator} setSelectedUser={setSelectedUser} setResetPassword={setResetPassword} setResetPasswordUser={setResetPasswordUser} />, subAccount);
+              reactDom.render(<RenderAccounts accounts={data['accounts']} navigator={navigator} setSelectedUser={setSelectedUser} setResetPassword={setResetPassword} setResetPasswordUser={setResetPasswordUser} setShowBottomBar={setShowBottomBar} />, subAccount);
             }
           })
         }

@@ -355,6 +355,18 @@ body {
                         -ms-flex: 1;
                         flex: 1;
                         text-align: center;
+                        -o-text-overflow: ellipsis;
+                        text-overflow: ellipsis;
+                        max-width: 60%;
+                        overflow: hidden;
+                        * {
+                            -o-text-overflow: ellipsis;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                        }
+                    }
+                    &.accounts {
+                        max-width: 100%;
                     }
                     &:nth-child(3) {
                         button {
@@ -392,7 +404,7 @@ body {
                             text-align: left;
                             svg {
                                 width: 20px;
-                                height: 35px;
+                                height: 25px;
                             }
                         }
                     }
@@ -2352,15 +2364,7 @@ body {
                 cursor: pointer;
                 position: absolute;
                 background-color: transparent;
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: flex;
-                -webkit-box-align: center;
-                -ms-flex-align: center;
-                align-items: center;
-                -webkit-box-pack: center;
-                -ms-flex-pack: center;
-                justify-content: center;
+                display: block;
                 border: none;
                 svg {
                     -webkit-transition: -webkit-transform 0.3s ease-in-out;
@@ -2374,6 +2378,7 @@ body {
                     -webkit-transform: rotate(0);
                     -ms-transform: rotate(0);
                     transform: rotate(0);
+                    vertical-align: middle;
                 }
                 &.active {
                     svg {

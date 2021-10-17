@@ -6,6 +6,12 @@ import Button from './Button.jsx';
 
 export default function HeaderDevices({navigator, }) {
     let currentUser = JSON.parse(localStorage.getItem('user'));
+
+
+    const selectedUser = JSON.parse(localStorage.getItem('selectedUser'));
+    if (selectedUser !== null) {
+        currentUser = selectedUser;
+    }
     return (
         <>
             <div className="art_option">

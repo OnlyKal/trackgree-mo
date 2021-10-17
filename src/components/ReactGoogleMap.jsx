@@ -183,7 +183,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
     if (selectedDeviceRef.current) {
         let prod = selectedDeviceRef.current
         if(isMounted.current){
-            if (mapRef.current.getZoom() > 10) {
+            if (mapRef.current&&mapRef.current.getZoom() > 10) {
                 //  get current pan
                 const currentPan = mapRef.current.getCenter();
                 // pan only if the current pan is not the same as the selected device

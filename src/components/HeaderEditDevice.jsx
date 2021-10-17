@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactComponent as Back } from '../assets/images/back.svg';
 import Button from './Button.jsx';
 
-function HeaderEditDevice({navigator,setShowBottomBar, name="Edit Device", back='deviceDetails', setSelectedUser, }) {
+function HeaderEditDevice({navigator,setShowBottomBar, name="Edit Device", back='deviceDetails', setSelectedUser,className='' }) {
   return (
     <>
     <div className="art_option">
@@ -18,7 +18,7 @@ function HeaderEditDevice({navigator,setShowBottomBar, name="Edit Device", back=
     </div>
 
    
-    <div className="art_option">
+    <div className={"art_option "+className}>
     <h4>{name}</h4>
     </div>
 </>

@@ -82,7 +82,7 @@ function ServerCommand({active, setActive, device, setCommand, setCommandRespons
                     {inputs.map((input, index) => {
                         return (
                             <div className="art_input" key={index}>
-                                <input type={input.type} placeholder={input.placeholder} name={input.name} ref={input.ref} value={input.value} onChange={input.onChange} readOnly onFocus={(e)=>e.target.removeAttribute('readonly')} onBlur={(e)=>e.target.setAttribute('readonly', '')} />
+                                <input type={input.type} placeholder={input.placeholder} name={input.name} ref={input.ref} value={input.value} onChange={input.onChange} />
                             </div>
                         )
                     })}

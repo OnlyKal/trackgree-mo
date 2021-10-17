@@ -3,8 +3,19 @@ import { API } from "../config";
 
 function fetchProducts(currentTab = '') {
     currentTab = currentTab.toLowerCase();
+    const selectedUser = JSON.parse(localStorage.getItem('selectedUser'));
 
-    return axios.get(API + '/devices/' + currentTab, {
+    let url = API + '/devices/' + currentTab;
+
+    if (selectedUser !== null) {
+        if (currentTab.includes('?')) {
+            url += '&user_id=' + selectedUser.id;
+        } else {
+            url += '?user_id=' + selectedUser.id;
+        }
+    }
+
+    return axios.get(url, {
         headers: {
             authorization: "bearer " + localStorage.getItem('token').split('"').join('')
         }
@@ -17,7 +28,15 @@ function fetchProducts(currentTab = '') {
 }
 
 function fetchStats(setStatics = () => null) {
-    return axios.get(API + '/devices/stats', {
+    const selectedUser = JSON.parse(localStorage.getItem('selectedUser'));
+
+    let url = API + '/devices/stats';
+
+    if (selectedUser !== null) {
+        url += '?user_id=' + selectedUser.id;
+    }
+
+    return axios.get(url, {
         headers: {
             authorization: "bearer " + localStorage.getItem('token').split('"').join('')
         }
@@ -79,15 +98,17 @@ function fetchProductsContinuously(Timer, currentTab, products, setProducts, set
 // }
 
 function handleSearch(search, db, setSearchKeyword, navigator, ignoreDB = false) {
-    if (!ignoreDB) {
-        db.add({ word: search }).catch(function(e) {
-            if (e.target.error.name !== 'ConstraintError') {
-                console.error(e);
-            }
-        });
+    if (search.trim() !== '') {
+        if (!ignoreDB) {
+            db.add({ word: search }).catch(function(e) {
+                if (e.target.error.name !== 'ConstraintError') {
+                    console.error(e);
+                }
+            });
+        }
+        setSearchKeyword(search);
+        navigator('searchResults')
     }
-    setSearchKeyword(search);
-    navigator('searchResults')
 }
 
 function fetchGroups() {

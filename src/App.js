@@ -103,6 +103,7 @@ const [currentMapDevice, setCurrentMapDevice] = useState('all');
           if(verifiedToken&&verifiedToken.status === 'success') {
             setToken(verifiedToken.token);
             localStorage.setItem('user', JSON.stringify( verifiedToken.data));
+            localStorage.removeItem('selectedUser');
 
             // get previous page from localStorage
             let currentPage = localStorage.getItem('currentPage');
