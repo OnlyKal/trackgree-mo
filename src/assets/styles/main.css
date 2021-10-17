@@ -2486,6 +2486,7 @@ body #root {
   color: #7c7e7e;
   cursor: pointer;
   position: absolute;
+  left: 15px;
   background-color: transparent;
   display: block;
   border: none;
