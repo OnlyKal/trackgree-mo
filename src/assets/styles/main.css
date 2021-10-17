@@ -2482,17 +2482,19 @@ body #root {
 
 .App .art_accounts_container .art_account_container .art_account_dropdown {
   width: 30px;
+  height: 30px;
   margin: auto 0;
   color: #7c7e7e;
   cursor: pointer;
   position: absolute;
-  left: 15px;
   background-color: transparent;
   display: block;
   border: none;
 }
 
 .App .art_accounts_container .art_account_container .art_account_dropdown svg {
+  width: inherit;
+  height: inherit;
   -webkit-transition: -webkit-transform 0.3s ease-in-out;
   transition: -webkit-transform 0.3s ease-in-out;
   transition: transform 0.3s ease-in-out;
