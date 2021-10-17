@@ -188,10 +188,10 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
                 const currentPan = mapRef.current.getCenter();
                 // pan only if the current pan is not the same as the selected device
                 if(currentPan.lat().toFixed(6) !== prod.lat.toFixed(6) && currentPan.lng().toFixed(6) !== prod.lng.toFixed(6)) {
-                    if(typeof prod.status === "string" && prod.status.toLowerCase() === "moving") {
+                    // if(typeof prod.status === "string" && prod.status.toLowerCase() === "moving") {
                         mapRef.current.panTo({lat: prod.lat, lng: prod.lng});
-                        mapRef.current.panBy(prod.lat, prod.lng);
-                    }
+                        // mapRef.current.panBy(prod.lat, prod.lng);
+                    // }
                 }
             } else {
                 selectedDeviceRef.current = null;
