@@ -1,6 +1,6 @@
 import React from 'react'
 import {Search} from 'react-feather';
-import {ReactComponent as User} from '../assets/images/user_driver.svg';
+import {ReactComponent as User} from '../assets/images/user_circle.svg';
 
 import Button from './Button.jsx';
 
