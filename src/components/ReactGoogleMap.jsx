@@ -154,9 +154,9 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
         zoomOffset: -1,
         defaultMapOptions : (maps) =>{
             return {
-            disableDefaultUI: true,
+            // disableDefaultUI: true,
             fullscreenControl: false,
-            mapTypeControl: false,
+            // mapTypeControl: false,
             streetViewControl: false,
             zoomControl: false,
             panControl: true,
@@ -166,7 +166,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
             mapTypeId: maps.MapTypeId[mapType],
             mapTypeControlOptions: {
                 style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                position: maps.ControlPosition.BOTTOM_CENTER,
+                position: maps.ControlPosition.TOP_RIGHT,
                 mapTypeIds: [
                     maps.MapTypeId.ROADMAP,
                     maps.MapTypeId.SATELLITE,
@@ -275,6 +275,8 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
                         }
 
                     }, 5000);
+
+                    
             }} 
         >
         {
