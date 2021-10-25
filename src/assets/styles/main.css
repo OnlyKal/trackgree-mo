@@ -836,9 +836,9 @@ body #root {
 }
 
 .App .art_main.art_main_map > div:first-of-type .art_btn .art_map_tyles {
-  width: 50px;
-  height: 50px;
-  padding: 8px;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
   border-radius: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
