@@ -1,5 +1,5 @@
 module.exports = {
-    API: 'http://api.trackgree.com/api',
+    API: /*  'http://localhost:5006/api' || */ 'http://api.trackgree.com/api',
     GOOGLE_API_KEY: 'AIzaSyAdJV9LXQyXqWqa1Sku19Gt6c-UABzTNrQ',
     GEOCODEAPI: (lat, lng) => `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${require('./index').GOOGLE_API_KEY}`,
     GEOCODEAPI2: (lat, lng) => `https://maps.googleapis.com/maps/api/place/textsearch/json?location=${lat},${lng}&oe=utf-8&key=${require('./index').GOOGLE_API_KEY}`,

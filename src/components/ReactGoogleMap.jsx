@@ -5,10 +5,13 @@ import  {ReactComponent as CarIdling} from '../assets/images/mapIcons/single/car
 import  {ReactComponent as CarMoving} from '../assets/images/mapIcons/single/car_moving.svg'
 import  {ReactComponent as CarStopped} from '../assets/images/mapIcons/single/car_stopped.svg'
 import  {ReactComponent as CarOffline} from '../assets/images/mapIcons/single/car_offline.svg'
+import  {ReactComponent as TyleType} from '../assets/images/TyleType.svg'
+import  {ReactComponent as TyleTypeFilled} from '../assets/images/TyleTypeFilled.svg'
 
 import { fetchProducts } from './fetchProducts';
 import CustomBottomSheet from './customBottomSheet';
-
+import * as mapStyle from '../components/mapStyle.js';
+import Button from './Button';
 const mapIcons = {
     idling: CarIdling,
     moving: CarMoving,
@@ -71,7 +74,6 @@ const AnyReactComponent = ({ text, Icon,status, rotation, speed, lat, lng, selec
 
 function results (res, Timer, setProducts, showBottomSheet, selectedDeviceRef) {
     try {
-    
         let data = res.data;
         // get devices from groups inside data object
         let devices =Object.values(data).map(group => group);
@@ -101,6 +103,8 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
 
     const [showBottomSheet,setShowBottomSheet] = React.useState(currentTab.toLowerCase() !== 'all');
   
+    const [mapType, setMapType] = React.useState('ROADMAP');
+
     React.useEffect(() => {
         let Timer = null;
         isMounted.current = true;
@@ -110,6 +114,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
         }
         if(isMounted.current) {
             fetchProducts(currentTab||'All').then(res => {
+                
                 let rs = results(res, Timer, setProducts,showBottomSheet, selectedDeviceRef);
                 if (rs && currentTab.toLowerCase() !=='all') {
                     selectedDeviceRef.current = rs;
@@ -147,7 +152,8 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
         tileSize: 512,
         // maxZoom: 18,
         zoomOffset: -1,
-        defaultMapOptions : {
+        defaultMapOptions : (maps) =>{
+            return {
             disableDefaultUI: true,
             fullscreenControl: false,
             mapTypeControl: false,
@@ -155,14 +161,21 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
             zoomControl: false,
             panControl: true,
             clickableIcons: false,
-            // styles: mapStyle,
-            // styles: [
-            //     {
-            //         "featureType": "transit.station",
-            //         "stylers": [{ "visibility": "off" }]
-            //     }
-            // ],
-          }
+            styles: mapStyle,
+
+            mapTypeId: maps.MapTypeId[mapType],
+            mapTypeControlOptions: {
+                style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                position: maps.ControlPosition.BOTTOM_CENTER,
+                mapTypeIds: [
+                    maps.MapTypeId.ROADMAP,
+                    maps.MapTypeId.SATELLITE,
+                    maps.MapTypeId.HYBRID
+                ]
+            },
+        }
+        },
+        
     };
     
     if(products.length === 1 && currentTab.toLowerCase() !== 'all') {
@@ -188,10 +201,9 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
                 const currentPan = mapRef.current.getCenter();
                 // pan only if the current pan is not the same as the selected device
                 if(currentPan.lat().toFixed(6) !== prod.lat.toFixed(6) && currentPan.lng().toFixed(6) !== prod.lng.toFixed(6)) {
-                    // if(typeof prod.status === "string" && prod.status.toLowerCase() === "moving") {
+              
                         mapRef.current.panTo({lat: prod.lat, lng: prod.lng});
-                        // mapRef.current.panBy(prod.lat, prod.lng);
-                    // }
+                      
                 }
             } else {
                 selectedDeviceRef.current = null;
@@ -220,34 +232,50 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
     
     if (!showBottomSheet) document.documentElement.style.setProperty('--bootSheetHeight', `0px`);
 
+    let mapLanguage = 'en';
+    if(user.language) {
+        mapLanguage = user.language.slice(0, 2).toLowerCase();
+    }
+
     return (
         <>
     <div style={{ /* height: '70vh', */ width: '100%' }}>
+        <Button onClick={() => {
+            setMapType(mapType === 'ROADMAP'? 'HYBRID' : mapType === 'HYBRID'?'SATELLITE':'ROADMAP');
+        }}
+        className={"art_map_tyles"}
+        children={(mapType === 'HYBRID'||mapType === 'SATELLITE')? <TyleTypeFilled /> :<TyleType />  }
+        />
         <GoogleMapReact
-        bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
-        yesIWantToUseGoogleMapApiInternals={true}
-        // maxZoom={defaultProps.maxZoom}
-        // mapTypeControl= {false}
-        zoomOffset={defaultProps.zoomOffset}
-        defaultCenter={defaultProps.center}
-        defaultZoom={defaultProps.zoom}
-        options={defaultProps.defaultMapOptions}
-        clickableIcons={false}
-        styles={true}
-        onGoogleApiLoaded={({map, maps}) => {
-                mapRef.current = map;
-                mapsRef.current = maps;
-                setTimeout(() => {
-                    let lable = window.document.querySelector('a[title="Open this area in Google Maps (opens a new window)"]');
-                    if (lable) {
-                        lable.removeAttribute('href');
-                        lable.removeAttribute('target');
-                        lable.removeAttribute('title');
-                        lable.querySelectorAll('div').length && (lable.querySelectorAll('div')[0].style.cursor= 'default');
-                    }
+            bootstrapURLKeys={{
+                key: GOOGLE_API_KEY ,
+                language: mapLanguage,
+                region: mapLanguage,
+            }}
+                
+            yesIWantToUseGoogleMapApiInternals={true}
+            // maxZoom={defaultProps.maxZoom}
+            // mapTypeControl= {false}
+            zoomOffset={defaultProps.zoomOffset}
+            defaultCenter={defaultProps.center}
+            defaultZoom={defaultProps.zoom}
+            options={defaultProps.defaultMapOptions}
+            clickableIcons={false}
+            styles={true}
+            onGoogleApiLoaded={({map, maps}) => {
+                    mapRef.current = map;
+                    mapsRef.current = maps;
+                    setTimeout(() => {
+                        let lable = window.document.querySelector('a[title="Open this area in Google Maps (opens a new window)"]');
+                        if (lable) {
+                            lable.removeAttribute('href');
+                            lable.removeAttribute('target');
+                            lable.removeAttribute('title');
+                            lable.querySelectorAll('div').length && (lable.querySelectorAll('div')[0].style.cursor= 'default');
+                        }
 
-                }, 5000);
-         }} 
+                    }, 5000);
+            }} 
         >
         {
             products.length && products.map((car, index) => {
@@ -282,8 +310,6 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
             }) 
  
         }
-
-        
         
     </GoogleMapReact>
     {showBottomSheet &&

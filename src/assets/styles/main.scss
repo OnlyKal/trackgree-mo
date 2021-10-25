@@ -357,9 +357,9 @@ body {
                         text-align: center;
                         -o-text-overflow: ellipsis;
                         text-overflow: ellipsis;
-                        max-width: 60%;
                         overflow: hidden;
-                        * {
+                        h4 {
+                            max-width: 95%;
                             -o-text-overflow: ellipsis;
                             text-overflow: ellipsis;
                             overflow: hidden;
@@ -619,20 +619,20 @@ body {
                 display: flex;
             }
             .art_product_co {
-                &.nosignal {
-                    --productColor: $productNoSignal;
-                    --productOrder: 0;
-                }
                 &.moving {
                     --productColor: $productOnline;
-                    --productOrder: 1;
+                    --productOrder: 0;
                 }
                 &.idling {
                     --productColor: $productIdle;
-                    --productOrder: 2;
+                    --productOrder: 1;
                 }
                 &.stopped {
                     --productColor: $productStopped;
+                    --productOrder: 2;
+                }
+                &.nosignal {
+                    --productColor: $productNoSignal;
                     --productOrder: 3;
                 }
                 &.offline {
@@ -757,9 +757,9 @@ body {
                             width: 40px;
                             height: 40px;
                             margin: auto 0 auto 15px;
-                            // background: rgba(69, 69, 69, 0.29);
+                            background: rgba(69, 69, 69, 0.129);
                             // background: rgba(84, 112, 71, 0.212);
-                            background: rgba(84, 112, 72, 0.05);
+                            // background: rgba(84, 112, 72, 0.05);
                             border-radius: 5pc;
                             // display: -webkit-box;
                             // display: -ms-flexbox;
@@ -811,6 +811,25 @@ body {
                 // -ms-flex: 1;
                 // flex: 1;
                 // height: 100%;
+                .art_btn {
+                    width: auto;
+                    height: auto;
+                    position: fixed;
+                    top: 25px;
+                    right: 10px;
+                    z-index: 1;
+                    cursor: pointer;
+                    -webkit-box-shadow: none;
+                    box-shadow: none;
+                    .art_map_tyles {
+                        width: 50px;
+                        height: 50px;
+                        padding: 8px;
+                        border-radius: 0;
+                        -webkit-box-shadow: none;
+                        box-shadow: none;
+                    }
+                }
             }
             .art_tracking_map {
                 height: var(--bootSheetHeight);
