@@ -7,11 +7,16 @@ import  {ReactComponent as CarStopped} from '../assets/images/mapIcons/single/ca
 import  {ReactComponent as CarOffline} from '../assets/images/mapIcons/single/car_offline.svg'
 import  {ReactComponent as TyleType} from '../assets/images/TyleType.svg'
 import  {ReactComponent as TyleTypeFilled} from '../assets/images/TyleTypeFilled.svg'
+import  {ReactComponent as TraficType} from '../assets/images/TraficType.svg'
+import  {ReactComponent as TraficTypeFilled} from '../assets/images/TraficTypeFilled.svg'
 
 import { fetchProducts } from './fetchProducts';
 import CustomBottomSheet from './customBottomSheet';
-import * as mapStyle from '../components/mapStyle.js';
-import Button from './Button';
+import  styledStyles from '../components/mapStyle.js';
+import Button from './Button.jsx';
+const {mapStyleDark, mapStyle} = styledStyles;
+
+
 const mapIcons = {
     idling: CarIdling,
     moving: CarMoving,
@@ -43,18 +48,6 @@ const AnyReactComponent = ({ text, Icon,status, rotation, speed, lat, lng, selec
                         if (maps && map){
                             map.panTo({lat, lng});
                             map.setZoom(15);
-                            // const bounds = new maps.LatLngBounds();
-         
-                            // if(device.lat && device.lng) {
-                            //     bounds.extend(new maps.LatLng(device.lat, device.lng));
-
-                            //     // fit map bounds
-                            //     map.fitBounds(bounds, {
-                            //         lat: 0.01,
-                            //         lng: 0.01
-                            //         }
-                            //     );
-                            // }
         
 
                         } else {
@@ -104,6 +97,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
     const [showBottomSheet,setShowBottomSheet] = React.useState(currentTab.toLowerCase() !== 'all');
   
     const [mapType, setMapType] = React.useState('ROADMAP');
+    const [mapTrafic, setMapTrafic] = React.useState(false);
 
     React.useEffect(() => {
         let Timer = null;
@@ -161,7 +155,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
             zoomControl: false,
             panControl: true,
             clickableIcons: false,
-            styles: mapStyle,
+            styles:styledStyles|| mapStyleDark||mapStyle,
 
             mapTypeId: maps.MapTypeId[mapType],
             mapTypeControlOptions: {
@@ -229,6 +223,8 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
             firstLoad.current = false;
         }
     }
+
+    const trafficLayerRef = React.useRef(null);
     
     if (!showBottomSheet) document.documentElement.style.setProperty('--bootSheetHeight', `0px`);
 
@@ -236,7 +232,6 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
     if(user.language) {
         mapLanguage = user.language.slice(0, 2).toLowerCase();
     }
-
     return (
         <>
     <div style={{ /* height: '70vh', */ width: '100%' }}>
@@ -245,6 +240,21 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
         }}
         className={"art_map_tyles"}
         children={(mapType === 'HYBRID'||mapType === 'SATELLITE')? <TyleTypeFilled /> :<TyleType />  }
+        />
+        <Button onClick={() => {
+            let trafficLayer = trafficLayerRef.current;
+            if (mapsRef.current && mapRef.current && trafficLayer) {
+            if (!mapTrafic) {
+                trafficLayer.setMap(mapRef.current);
+            } else {
+                    trafficLayer.setMap(null);
+                }
+            }
+            
+            setMapTrafic(!mapTrafic);
+        }}
+        className={"art_map_trafic"}
+        children={mapTrafic? <TraficTypeFilled /> :<TraficType />  }
         />
         <GoogleMapReact
             bootstrapURLKeys={{
@@ -263,20 +273,20 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
             clickableIcons={false}
             styles={true}
             onGoogleApiLoaded={({map, maps}) => {
-                    mapRef.current = map;
-                    mapsRef.current = maps;
-                    setTimeout(() => {
-                        let lable = window.document.querySelector('a[title="Open this area in Google Maps (opens a new window)"]');
-                        if (lable) {
-                            lable.removeAttribute('href');
-                            lable.removeAttribute('target');
-                            lable.removeAttribute('title');
-                            lable.querySelectorAll('div').length && (lable.querySelectorAll('div')[0].style.cursor= 'default');
-                        }
+                mapRef.current = map;
+                mapsRef.current = maps;
+                setTimeout(() => {
+                    let lable = window.document.querySelector('a[title="Open this area in Google Maps (opens a new window)"]');
+                    if (lable) {
+                        lable.removeAttribute('href');
+                        lable.removeAttribute('target');
+                        lable.removeAttribute('title');
+                        lable.querySelectorAll('div').length && (lable.querySelectorAll('div')[0].style.cursor= 'default');
+                    }
 
-                    }, 5000);
+                }, 5000);
 
-                    
+                trafficLayerRef.current = new mapsRef.current.TrafficLayer();
             }} 
         >
         {
@@ -305,6 +315,7 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
                         device={car}
                         selectedDeviceRef={selectedDeviceRef}
                         setShowBottomSheet={setShowBottomSheet}
+                        optimized={true}
                     />)
                 }
                 return null;

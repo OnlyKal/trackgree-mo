@@ -85,7 +85,7 @@ let _quickOptions =(device, setCommand,setModalActive,setCommandResponse)=>  [
     active: true,
   },
 ];
-
+ 
 function Command({navigator,device,}) {
   const [command, _setCommand] = React.useState('');
 

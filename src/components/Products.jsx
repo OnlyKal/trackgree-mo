@@ -15,6 +15,10 @@ const handleSendCommand = (e, product,setviewDevice, navigator) => {
     setviewDevice(product);
     navigator('command');
 };
+const handlePlayback = (e, product,setviewDevice, navigator) => {
+    setviewDevice(product);
+    navigator('Playback');
+};
 
 function handleStatusUp(status,product) {
     if(product.speed > 0 && product.status === "moving" && product.loc_valid >0) {
@@ -45,6 +49,10 @@ export default function ProductList({status, product={}, showMenu,menuElements, 
         {   product,
             name: 'Details',
             handleClick:(e, product)=> handleShowDetails(e, product,setviewDevice, navigator),
+        },
+        {   product,
+            name: "Playback",
+            handleClick:(e, product)=> handlePlayback(e, product,setviewDevice, navigator),
         },
         // {   product,
         //     name: "Move Device",

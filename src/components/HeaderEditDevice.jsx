@@ -2,11 +2,15 @@ import React from 'react';
 import { ReactComponent as Back } from '../assets/images/back.svg';
 import Button from './Button.jsx';
 
-function HeaderEditDevice({navigator,setShowBottomBar, name="Edit Device", back='deviceDetails', setSelectedUser,className='' }) {
+function HeaderEditDevice({navigator,setShowBottomBar, name="Edit Device", back='deviceDetails', setSelectedUser, className='', beforeBack }) {
   return (
     <>
     <div className="art_option">
         <Button onClick={()=> {
+          if (typeof beforeBack === 'function') {
+            beforeBack(back);
+          }
+          
           if (typeof setShowBottomBar === 'function') { setShowBottomBar(true); }
           if (typeof setSelectedUser === 'function') { 
             // current login user

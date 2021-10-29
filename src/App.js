@@ -5,6 +5,7 @@ import  Search  from './components/Search.jsx';
 import  SearchResults from './components/SearchResults.jsx';
 import  DeviceDetails from './components/DeviceDetails.jsx';
 import  EditDevice from './components/EditDevice.jsx';
+// import "./node_modules/antd-mobile/lib/style/";
 import "./assets/styles/main.css";
 import {API} from './config';
 import axios from 'axios'
@@ -18,6 +19,8 @@ import AddAccount from './components/AddAccount.jsx';
 import Accounts from './components/Accounts.jsx';
 import Profile from './components/Profile.jsx';
 import Map from './components/Map.jsx';
+import Playback from './components/Playback.jsx';
+import PlaybackMap from './components/PlaybackMap.jsx';
 
 try {
   LogRocket.init('yk4gzw/trackgree-mo');
@@ -79,6 +82,7 @@ function App() {
   const [currentPage, _setPage] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [viewDevice, setviewDevice] = useState({});
+  const [deviceData, setdeviceData] = useState([]);
   const [showBottomBar, setShowBottomBar] = useState(true);
 
   const isMounted = useIsMounted();
@@ -88,7 +92,7 @@ function App() {
   // Save previous page to session storage
   const setPage = (page) => {
     
-    if ( currentPage.trim() !== '' && (currentPage.toLowerCase() !== "editdevice" )) {
+    if ( currentPage.trim() !== '' && (currentPage.toLowerCase() !== "editdevice" && currentPage.toLowerCase() !== "history" )) {
       localStorage.setItem('previousPage', currentPage);
     } else {
       localStorage.setItem('previousPage', 'map');
@@ -160,6 +164,10 @@ const [currentMapDevice, setCurrentMapDevice] = useState('all');
         { (currentPage.toLowerCase() === "addaccount") ? <AddAccount navigator={setPage} setShowBottomBar={setShowBottomBar} selectedUser={selectedUser} setSelectedUser={setSelectedUser} /> : "" }
         {/* COMMAND */}
         { (currentPage.toLowerCase() === "command") ? <Command navigator={setPage} search={searchKeyword} setSearchKeyword={setSearchKeyword} setviewDevice={setviewDevice} device={viewDevice} setShowBottomBar={setShowBottomBar} /> : "" }
+        {/* PLAYBACK */}
+        { (currentPage.toLowerCase() === "playback") ? <Playback navigator={setPage} setviewDevice={setviewDevice} device={viewDevice} setShowBottomBar={setShowBottomBar} setdeviceData={setdeviceData} /> : "" }
+        {/* HISTORY/DEVICES */}
+        { (currentPage.toLowerCase() === "history") ? <PlaybackMap navigator={setPage} setShowBottomBar={setShowBottomBar} currentTab={currentMapDevice} device={viewDevice} deviceData={deviceData} setdeviceData={setdeviceData}  /> : "" }
         {/* COMMAND */}
         { (currentPage.toLowerCase() === "profile") ? <Profile navigator={setPage}   /> : "" }
         {/* SHOW BOTTOM NBAR */}
