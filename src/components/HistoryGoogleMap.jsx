@@ -3,8 +3,6 @@ import GoogleMapReact from 'google-map-react';
 import {GOOGLE_API_KEY} from '../config/index';
 import  styledStyles from '../components/mapStyle.js';
 import Button from './Button';
-// import CarMaker from './CarMaker';
-
 import  {ReactComponent as TyleType} from '../assets/images/TyleType.svg'
 import  {ReactComponent as TyleTypeFilled} from '../assets/images/TyleTypeFilled.svg'
 import  {ReactComponent as Speed} from '../assets/images/Speed.svg'
@@ -15,20 +13,16 @@ import  StopPoint from '../assets/images/StopPoint.png'
 import Header from './Header';
 import HeaderEditDevice from './HeaderEditDevice';
 import Loader from './Loader';
-// import PointMaker from './PointMaker';
-
 import   CarIdling from '../assets/images/mapIcons/single/car-idling.png'
 import CarMoving from '../assets/images/mapIcons/single/car-moving.png'
 import CarStopped from '../assets/images/mapIcons/single/car-stopped.png'
 import CarOffline from '../assets/images/mapIcons/single/car-offline.png'
-
 import  {ReactComponent as CarIdling2} from '../assets/images/mapIcons/single/car_idling.svg'
 import  {ReactComponent as CarMoving2} from '../assets/images/mapIcons/single/car_moving.svg'
 import  {ReactComponent as CarStopped2} from '../assets/images/mapIcons/single/car_stopped.svg'
 import  {ReactComponent as CarOffline2} from '../assets/images/mapIcons/single/car_offline.svg'
 import { Activity, Clock, FastForward, Pause, Play } from 'react-feather';
 import { getDistance } from './fetchProducts';
-
 
 const mapIcons = {
     idling: CarIdling,
@@ -59,7 +53,7 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
     }
     const [statusMsg, setStatusMsg] = React.useState("Loading ...");
     const [collapsedTimeCounter, setCollapsedTimeCounter] = React.useState(0);
-    let totalCollapsedSpeed = 0;
+
     const fastForwardMode= [
         {
             delay: 5000,
@@ -83,15 +77,12 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
     const mapRef = React.useRef(null);
     const mapsRef = React.useRef(null);
     const animateMarker = React.useRef(null);
-    const animateCustomMarker = React.useRef(null);
-    // const animateTimer = React.useRef(null);
     const animateCount= React.useRef(0);
     const animateDelay = React.useRef(fastForwardMode[playMode].delay);
     const isAnimated = React.useRef(null);
     const position = React.useRef([]);
     const numDeltas = React.useRef(0);
 
-    // const [isAnimated, setIsAnimated] = React.useState(null);
     const [isPlaying, setIsPlaying] = React.useState(false);
     const [mapType, setMapType] = React.useState('ROADMAP');
 
@@ -102,11 +93,11 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
     React.useEffect(() => {
         isMounted.current = true;
         if (!isMounted.current) {
-            // clearTimeout(timer.current);
+            clearTimeout(timer.current);
         }
         return () => {
             isMounted.current = false;
-            // clearTimeout(timer.current);
+            clearTimeout(timer.current);
         }
     }, [isMounted, timer]);
 
@@ -123,14 +114,10 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
         zoomOffset: -1,
         defaultMapOptions : (maps) =>{
             return {
-            // disableDefaultUI: true,
             fullscreenControl: false,
-            // mapTypeControl: false,
             streetViewControl: false,
             zoomControl: false,
-            // zoomControlOptions: {
-            //     style: maps.ZoomControlStyle.SMALL
-            // },
+           
             panControl: true,
             clickableIcons: false,
             styles:styledStyles|| mapStyleDark||mapStyle,
@@ -158,130 +145,56 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
 
     // get polyline path from deviceData
     const polylinePath = deviceData.map(device => {
-        // get totalCollapsedSpeed
-        if(device.speed) {
-            totalCollapsedSpeed += device.speed;
-        }
-
         return {
             lat: device.lat,
             lng: device.lng,
         }
     });
 
+    function counterAnimation(animateCount, myIsPlaying) {
+        let count = animateCount.current;
+        
 
-function animate_marker (animateCount,animateDelay,animateMarker,polylinePath, mapsRef, mapRef, isMounted, deviceData,isPlaying  ) {
-    // requestAnimationFrame(animateMarker);
-    let count = animateCount.current;
-    let delay = animateDelay.current;
-    let marker2 = animateMarker.current;
-    let map = mapRef.current;
-    let maps = mapsRef.current;
-
-    if (isMounted&&!isMounted.current) {
-        clearTimeout(timer);
-        return false;
-    }
-
-    if (marker2){
-        // reset marker2 anchor point to bottom center
-        marker2.setIcon({
-            url: mapIcons['moving'],
-            scaledSize: new maps.Size(13, 26),
-            origin: new maps.Point(0, 0),
-            anchor: new maps.Point(0, 0),
-        });
-       
         count++;
 
-        animateCount.current = count;
+        if (myIsPlaying) {
 
-        if (count > polylinePath.length - 1) {
-            animateCount.current =0;
-            isAnimated.current = false;
-            setIsPlaying(false);
-            clearTimeout(timer);
-        } else {
-            marker2.setPosition(polylinePath[count]);
+            if (count > polylinePath.length - 1) {
+                animateCount.current =0;
+                isAnimated.current = false;
+                setIsPlaying(false);
+            return clearTimeout(timer.current);
+            }
 
-            map.panTo(polylinePath[count]);
-            // map.setZoom(18);
+            let map = mapRef.current;
+            let maps = mapsRef.current;
 
-            timer = setTimeout((animateCount,animateDelay,animateMarker,polylinePath, mapsRef, mapRef, isMounted, deviceData,isPlaying )=>{
-                animate_marker(animateCount,animateDelay,animateMarker,polylinePath, mapsRef, mapRef, isMounted, deviceData,isPlaying);
-            }, delay, animateCount,animateDelay,animateMarker,polylinePath, mapsRef, mapRef, isMounted, deviceData,isPlaying );
-        }
+            animateMarker.current.setIcon({
+                url: mapIcons['moving'],
+                scaledSize: new maps.Size(13, 26),
+                origin: new maps.Point(0, 0),
+                anchor: new maps.Point(0, 0),
+            });
         
-    }
-    
-}
+            animateMarker.current.setPosition(polylinePath[count]);
+            map.panTo(animateMarker.current.getPosition());
 
-function counterAnimation(animateCount, myIsPlaying) {
-    let count = animateCount.current;
-    
-
-    count++;
-
-    if (myIsPlaying) {
-
-        if (count > polylinePath.length - 1) {
-            animateCount.current =0;
-            isAnimated.current = false;
-            setIsPlaying(false);
-           return clearTimeout(timer.current);
+            timer.current  = setTimeout(()=>{
+                animateCount.current = count;
+                counterAnimation(animateCount, myIsPlaying);
+            }, animateDelay.current, myIsPlaying);
+        } else {
+            clearTimeout(timer.current);
         }
-// console.log( deviceData[count]);
 
-    let map = mapRef.current;
-    let maps = mapsRef.current;
-    // let angle = 0;
-
-    // if (typeof deviceData[count+2] !== 'undefined') {
-    //     // get angles from device data
-    //     let point1 = new maps.LatLng(deviceData[count].lat, deviceData[count].lng);
-    //     let point3 = new maps.LatLng(deviceData[count+2].lat, deviceData[count+2].lng);
-    //     let point2 = new maps.LatLng(deviceData[count+1].lat, deviceData[count+1].lng);
-    //     angle = getBearings(point1, point2, point3, maps);
-    //     // angle = angle+26;
-    // }
-        animateMarker.current.setIcon({
-            url: mapIcons['moving'],
-            scaledSize: new maps.Size(13, 26),
-            origin: new maps.Point(0, 0),
-            anchor: new maps.Point(0, 0),
-        });
-        // animateCustomMarker.current.setPosition({
-        //         position: new maps.LatLng(polylinePath[count].lat, polylinePath[count].lng),
-        //         icon: {
-        //             url: mapIcons['moving'],
-        //             scaledSize: new maps.Size(13, 26),
-        //             anchor: new maps.Point(0, 0),
-        //         },
-        //         rotation: deviceData[count].angle===0?angle:deviceData[count].angle,
-        // });
-       
-        animateMarker.current.setPosition(polylinePath[count]);
-
-        // map.panTo(polylinePath[count]);
-
-        map.panTo(animateMarker.current.getPosition());
-
-        timer.current  = setTimeout(()=>{
-            animateCount.current = count;
-            counterAnimation(animateCount, myIsPlaying);
-        }, animateDelay.current, myIsPlaying);
-    } else {
-        clearTimeout(timer.current);
-    }
-
-    animateCount.current = count;
-    if (isMounted.current) {
-        if(animateCount.current > 0 && animateCount.current !== collapsedTimeCounter) {
-            setCollapsedTimeCounter(animateCount.current);
+        animateCount.current = count;
+        if (isMounted.current) {
+            if(animateCount.current > 0 && animateCount.current !== collapsedTimeCounter) {
+                setCollapsedTimeCounter(animateCount.current);
+            }
         }
+        return timer.current;
     }
-    return timer.current;
-}
 
 
 
@@ -387,36 +300,12 @@ function counterAnimation(animateCount, myIsPlaying) {
                     animateMarker.current = marker2;
 
                     
-                    // // Create custom marker
-                    // let CustomMarker = require('./CustomMarker/CustomMarker.jsx').default;
-                    
-                    // let customMarker = new CustomMarker({
-                    //     position: new maps.LatLng(firstPosition.lat, firstPosition.lng),
-                    //     map: map,
-                    //     icon: {
-                    //         url: mapIcons['moving'],
-                    //         scaledSize: new maps.Size(13, 26),
-                    //         anchor: new maps.Point(0, 0),
-                    //     },
-                    //     rotation: deviceData[0].angle,
-                    // })
-
-                    // animateCustomMarker.current = customMarker;
-                    
 
                     animateMarker.current.addListener("click", () => {
                         map.setZoom(18);
                         map.setCenter(animateMarker.current.getPosition());
                     });
-                    // animateCustomMarker.current.addListener("click", () => {
-                    //     map.setZoom(18);
-                    //     map.setCenter(animateMarker.current.getPosition());
-                    // });
-
-                    // console.log(window.document.querySelector('img[src=https://maps.gstatic.com/mapfiles/transparent.png]'));
-                    // Get marker DOM element from marker2 
-                    // let markerDomElement = marker2.getDiv();
-                    // Create a marker for the last polyline path
+       
                     new maps.Marker({
                         position: polylinePath[polylinePath.length - 1],
                         map: map,
@@ -429,9 +318,6 @@ function counterAnimation(animateCount, myIsPlaying) {
                     // Fit map to the history bounds
                     map.fitBounds(bounds);
                 }
-                // const trafficLayer = new maps.TrafficLayer();
-
-                // trafficLayer.setMap(map);
             }}
             onChange={() => {
                 if (mapRef.current) {
@@ -478,64 +364,7 @@ function counterAnimation(animateCount, myIsPlaying) {
                     if (anime === null){
                         mapRef.current.setZoom(18);
                     }
-                    counterAnimation(animateCount, true);
-                    // transition(animateMarker.current, animateCustomMarker.current, true);
-                    // deviceData.forEach((data, index) => {
-                    //     if (index >1) {
-                    //         if (deviceData[index-1]) {
-                    //             position.current = [deviceData[index-1].lat, deviceData[index-1].lng];
-                    //         }
-                    //     }
-
-                    //     // update marker's position within ease function callback
-                    //     ease(
-                    //         {lat:data.lat, lng:data.lng},
-                    //         position.current,
-                    //         4000,
-                    //         console.log,
-                    //         numDeltas.current,
-                    //         function(coord) {
-                    //             console.log(coord);
-                    //         //   marker.setGeometry(coord);
-                    //         }
-                    //     );
-
-                        // transition([data.lat, data.lng], position, mapsRef.current, mapRef.current, animateMarker.current, numDeltas );
-                        // if (index === 0) {
-                        //     animateMarker.current.setPosition(new mapsRef.current.LatLng(data.lat, data.lng));
-                        //     // animateCustomMarker.current.setPosition(new mapsRef.current.LatLng(data.lat, data.lng));
-                        //     animateMarker.current.setIcon({
-                        //         url: mapIcons['moving'],
-                        //         scaledSize: new mapsRef.current.Size(13, 26),
-                        //         anchor: new mapsRef.current.Point(0, 0),
-                        //     });
-                        //     // animateCustomMarker.current.setIcon({
-                        //     //     url: mapIcons['moving'],
-                        //     //     scaledSize: new mapsRef.current.Size(13, 26),
-                        //     //     anchor: new mapsRef.current.Point(0, 0),
-                        //     // });
-                        //     // animateMarker.current.setRotation(data.angle);
-                        //     // animateCustomMarker.current.setRotation(data.angle);
-                        // }
-                        // if (index > 0) {
-                        //     setTimeout(() => {
-                        //         animateMarker.current.setPosition(new mapsRef.current.LatLng(data.lat, data.lng));
-                        //         // animateCustomMarker.current.setPosition(new mapsRef.current.LatLng(data.lat, data.lng));
-                        //         animateMarker.current.setIcon({
-                        //             url: mapIcons['moving'],
-                        //             scaledSize: new mapsRef.current.Size(13, 26),
-                        //             anchor: new mapsRef.current.Point(0, 0),
-                        //         });
-                        //         // animateCustomMarker.current.setIcon({
-                        //         //     url: mapIcons['moving'],
-                        //         //     scaledSize: new mapsRef.current.Size(13, 26),
-                        //         //     anchor: new mapsRef.current.Point(0, 0),
-                        //         // });
-                        //         // animateMarker.current.setRotation(data.angle);
-                        //         // animateCustomMarker.current.setRotation(data.angle);
-                        //     }, index * 1000);
-                    //     }
-                    // });
+                    counterAnimation(animateCount, true); 
                 } else {
                     clearTimeout(timer.current);
                 }
@@ -660,145 +489,4 @@ function counterAnimation(animateCount, myIsPlaying) {
     </>
     );
 }
- function Timer(callback, delay, ...args) {
-    var timerId, start, remaining = delay;
-
-    this.pause = function() {
-        window.clearTimeout(timerId);
-        remaining -= Date.now() - start;
-    };
-
-    this.resume = function() {
-        start = Date.now();
-        window.clearTimeout(timerId);
-        timerId = window.setTimeout(callback, remaining, ...args);
-    };
-    // this.pause = function() {
-    //     window.clearInterval(timerId);
-    //     remaining -= Date.now() - start;
-    // };
-
-    // this.resume = function() {
-    //     start = Date.now();
-    //     window.clearInterval(timerId);
-    //     timerId = window.setInterval(callback, remaining, ...args);
-    // };
-
-    this.id = timerId;
-
-    this.resume();
-};
-
-function getBearings(point1, point2, point3, maps) {
-    // var point1 = markers[0].getPosition();// latlng of point1
-    // var point2 = markers[1].getPosition();
-    // var point3 = markers[2].getPosition();
-    var bearing1 = maps.geometry.spherical.computeHeading(point1,point2);
-    var bearing2 = maps.geometry.spherical.computeHeading(point2,point3);
-    var angle = getDifference(bearing1, bearing2);
-    return angle;
-}
-function getDifference(a1, a2) {
-    // let al = (a1>0) ? a1 : 360+a1;
-    a2 = (a2>0) ? a2 : 360+a2;
-    var angle = Math.abs(a1-a2)+180;
-    if (angle > 180){
-        angle = 360 - angle;
-    }
-    return Math.abs(angle);
-}
-
-// var numDeltas = 100;
-var delay = 100; //milliseconds
-var i = 0;
-var deltaLat;
-var deltaLng;
-let _Timer = null;
-
-function transition(result, position, maps, map, marker, numDeltas){
-    i = 0;
-    deltaLat = (result[0] - position.current[0]) ;
-    deltaLng = (result[1] - position.current[1]) ;
-    // Position is the first position
-    // result is the second position
-    // move the marker from the first position to the second position in 100 steps
-    // var stepLat = (result[0] + position.current[0]) / numDeltas.current;
-    // var stepLng = (result[1] + position.current[1]) / numDeltas.current;
-    console.log(result);
-    
-
-
-    moveMarker(position, maps, map, marker, numDeltas );
-}
-
-function moveMarker(position, maps, map, marker, numDeltas) {
-    try {
-    // position.current[0] += deltaLat;
-    // position.current[1] += deltaLng;
-    let latlng = new maps.LatLng(position.current[0], position.current[1]);
-
-    console.log(position.current);
-
-    marker.setPosition(latlng);
-    // map.panBy(latlng);
-
-    if(i!==numDeltas.current){
-        i++;
-       _Timer = setTimeout(moveMarker, delay, position, maps, map, marker, numDeltas);
-    } else {
-        clearTimeout(_Timer);
-        _Timer = null;
-    }
-        
-    } catch (error) {
-        console.log(error);
-        clearTimeout(_Timer);
-    }
-}
-
-
-
-/**
- * Ease function
- * @param   {H.geo.IPoint} startCoord   start geo coordinate
- * @param   {H.geo.IPoint} endCoord     end geo coordinate
- * @param   number durationMs           duration of animation between start & end coordinates
- * @param   function onStep             callback executed each step
- * @param   function onStep             callback executed at the end
- */
- function ease(
-    startCoord = {lat: 0, lng: 0},
-    endCoord = {lat: 1, lng: 1},
-    durationMs = 200,
-    onStep = console.log,
-    numDeltas = 2,
-    onComplete = function() {},
-  ) {
-    var raf = window.requestAnimationFrame || function(f) {window.setTimeout(f, 16)},
-        stepCount = durationMs / 16,
-        valueIncrementLat = (endCoord.lat - startCoord.lat) / stepCount,
-        valueIncrementLng = (endCoord.lng - startCoord.lng) / stepCount,
-        sinValueIncrement = numDeltas / stepCount,
-        currentValueLat = startCoord.lat,
-        currentValueLng = startCoord.lng,
-        currentSinValue = 0;
-  
-    function step() {
-      currentSinValue += sinValueIncrement;
-      currentValueLat += valueIncrementLat * (Math.sin(currentSinValue) ** 2) * 2;
-      currentValueLng += valueIncrementLng * (Math.sin(currentSinValue) ** 2) * 2;
-  
-      if (currentSinValue <= numDeltas) {
-        // onStep({lat: currentValueLat, lng: currentValueLng});
-        raf(step);
-      } else {
-          clearTimeout(raf);
-        // onStep(endCoord);
-        onComplete();
-      }
-    }
-  
-    raf(step);
-  }
-
 export default HistoryGoogleMap;
