@@ -111,10 +111,18 @@ const [currentMapDevice, setCurrentMapDevice] = useState('all');
 
             // get previous page from localStorage
             let currentPage = localStorage.getItem('currentPage');
+            let previousPage = localStorage.getItem('previousPage');
+
+            let allowedInitialPages = ['home', 'map', 'search', 'addaccount', 'accounts', 'profile'];
             
-            if (currentPage&& currentPage.trim() !== '' && ( currentPage.toLowerCase() === "editdevice" || currentPage.toLowerCase() === "command" || currentPage.toLowerCase() === "devicedetails")) {
-             currentPage = 'Map'
-            }else {
+            if (currentPage&& currentPage.trim() !== '' && (!allowedInitialPages.includes(currentPage.toLowerCase()))) {
+              // if previous page is allowed, set it to currentPage
+              if (previousPage && previousPage.trim() !== '' && allowedInitialPages.includes(previousPage.toLowerCase())) {
+                currentPage = previousPage;
+              } else {
+                currentPage = 'Map'
+              }
+            } else {
               currentPage === null && (currentPage = 'Map') && localStorage.setItem('currentPage', 'Map');
             }
             if (currentPage.toLowerCase() === "login" && _token !== '') {
