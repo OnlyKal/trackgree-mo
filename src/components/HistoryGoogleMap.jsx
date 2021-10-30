@@ -61,13 +61,18 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
     const animateCount= React.useRef(0);
     const fastForwardMode= [
         {
-            delay: 600,
-            name: '1 sec',
+            delay: 2000,
+            name: '2 secs',
             title: 'Slow'
         },
         {
-            delay: 300,
-            name: '2 secs',
+            delay: 1000,
+            name: '1 sec',
+            title: 'Normal'
+        },
+        {
+            delay: 700,
+            name: '3 secs',
             title: 'Medium'
         },
         {
@@ -177,8 +182,19 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                 let map = mapRef.current;
                 let maps = mapsRef.current;
 
+                let _DeviceIcon = mapIcons.moving;
+
+                deviceData[count]["params"] = typeof deviceData[count]["params"] === 'string' ? JSON.parse(deviceData[count]["params"]) : deviceData[count]["params"];
+                
+                if (deviceData[count].speed === 0 && deviceData[count].params['acc'] === 0) {
+                    _DeviceIcon = mapIcons.idling;
+                } else if (deviceData[count].speed === 0 && deviceData[count].params['acc'] !== 0) {
+                    _DeviceIcon = mapIcons.stopped;
+                } else  {
+                    _DeviceIcon = mapIcons.moving;
+                }
                 animateMarker.current.setIcon({
-                    url: mapIcons['moving'],
+                    url: _DeviceIcon,
                     scaledSize: new maps.Size(13, 26),
                     origin: new maps.Point(0, 0),
                     anchor: new maps.Point(0, 0),

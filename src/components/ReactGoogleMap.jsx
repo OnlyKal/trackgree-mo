@@ -10,13 +10,9 @@ import  {ReactComponent as TyleTypeFilled} from '../assets/images/TyleTypeFilled
 import  {ReactComponent as TraficType} from '../assets/images/TraficType.svg'
 import  {ReactComponent as TraficTypeFilled} from '../assets/images/TraficTypeFilled.svg'
 import  {ReactComponent as UserAccounts} from '../assets/images/UserAccounts.svg'
-
 import { fetchProducts } from './fetchProducts';
 import CustomBottomSheet from './customBottomSheet';
-import  styledStyles from '../components/mapStyle.js';
 import Button from './Button.jsx';
-const {mapStyleDark, mapStyle} = styledStyles;
-
 
 const mapIcons = {
     idling: CarIdling,
@@ -24,7 +20,6 @@ const mapIcons = {
     stopped: CarStopped,
     offline: CarOffline
 };
-
 
 function fetchProductsContinuously (Timer, type, setProducts) {
     return fetchProducts(type).then(res=>results(res, Timer, setProducts));
@@ -156,7 +151,7 @@ function ReactGoogleMap({navigator, currentTab, setCurrentMapDevice}) {
             zoomControl: false,
             panControl: true,
             clickableIcons: false,
-            styles:styledStyles|| mapStyleDark||mapStyle,
+            // styles:styledStyles|| mapStyleDark||mapStyle,
 
             mapTypeId: maps.MapTypeId[mapType],
             mapTypeControlOptions: {
@@ -235,7 +230,7 @@ function ReactGoogleMap({navigator, currentTab, setCurrentMapDevice}) {
     }
     return (
         <>
-    <div style={{ /* height: '70vh', */ width: '100%' }}>
+    <div style={{ width: '100%' }}>
         <Button onClick={() => {
             navigator('accounts')
         }}
