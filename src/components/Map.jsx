@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactGoogleMap from './ReactGoogleMap';
 
-function Map({currentTab, setCurrentMapDevice}) {
+function Map({navigator, currentTab, setCurrentMapDevice}) {
 
     return (
         <div className="art_main art_main_map"
         style={{position: 'relative', width: '100%', height: '100%'}}>
         
-            <ReactGoogleMap currentTab={currentTab} setCurrentMapDevice={setCurrentMapDevice} />
+            <ReactGoogleMap navigator={navigator} currentTab={currentTab} setCurrentMapDevice={setCurrentMapDevice} />
         </div>
     );
 }

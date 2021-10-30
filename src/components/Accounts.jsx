@@ -106,18 +106,25 @@ function Accounts({navigator, setShowBottomBar, setSelectedUser}) {
               {
                 user.totalSubAccounts > 0 && <button className="art_account_dropdown active" onClick={(e)=>handleDropdown(e,user.totalSubAccounts, user.id, navigator, setSelectedUser, setResetPassword, setResetPasswordUser, setShowBottomBar )}> <Caret /> </button>
               }
-              <button className="art_account_tab" >
+              <button className="art_account_tab" onClick={(e)=>{
+                  localStorage.setItem('selectedUser', JSON.stringify(user));
+                  let previousPage = localStorage.getItem('previousPage');
+                  setShowBottomBar(true);
+
+                  if(previousPage.toLowerCase() === 'map') {
+                    navigator('Map');
+                  } else {
+                    navigator('Home');
+                  }
+                  
+                }}>
                 
                 {/* Icon */}
                 <div className={"art_account_icon "+ user.privileges.type }>
                 {typeof Icon === "object" && <Icon />}
                 </div>
                     
-                <div className="art_account_name" onClick={(e)=>{
-                  localStorage.setItem('selectedUser', JSON.stringify(user));
-                  navigator('Home');
-                  setShowBottomBar(true);
-                }}>
+                <div className="art_account_name">
                   {user.account_name.trim()==='' ? user.username.split(' ').map((e, i)=>{
                     if(i<user.username.split(' ').length-1) {
                         return  <Fragment key={i}>{e}&nbsp;</Fragment>
@@ -186,7 +193,18 @@ function RenderAccounts({accounts, navigator, setSelectedUser, setResetPassword,
               {
                 account.totalSubAccounts > 0 && <button className="art_account_dropdown" onClick={(e)=>handleDropdown(e,account.totalSubAccounts, account.id, navigator, setSelectedUser,setResetPassword,setResetPasswordUser, setShowBottomBar )}> <Caret /> </button>
               }
-            <button className="art_account_tab" key={index}>
+            <button className="art_account_tab" key={index}  onClick={(e)=>{
+                  localStorage.setItem('selectedUser', JSON.stringify(account));
+                  let previousPage = localStorage.getItem('previousPage');
+                  setShowBottomBar(true);
+
+                  if(previousPage.toLowerCase() === 'map') {
+                    navigator('Map');
+                  } else {
+                    navigator('Home');
+                  }
+                  
+                }}>
               
               {/* Icon */}
               <div className={"art_account_icon "+ account.privileges.type.split(' ').join('').toLowerCase() }>
@@ -195,11 +213,7 @@ function RenderAccounts({accounts, navigator, setSelectedUser, setResetPassword,
                 }
               </div>
              
-              <div className="art_account_name" onClick={(e)=>{
-                  localStorage.setItem('selectedUser', JSON.stringify(account));
-                  setShowBottomBar(true);
-                  navigator('Home');
-                }}>{account.account_name.trim()==='' ? account.username.split(' ').map((e, i)=>{
+              <div className="art_account_name">{account.account_name.trim()==='' ? account.username.split(' ').map((e, i)=>{
                   if(i<account.username.split(' ').length-1) {
                       return  <Fragment key={i}>{e}&nbsp;</Fragment>
                   }

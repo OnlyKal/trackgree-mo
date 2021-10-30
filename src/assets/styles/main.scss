@@ -827,6 +827,16 @@
                         cursor: pointer;
                         -webkit-box-shadow: none;
                         box-shadow: none;
+                        .art_map_accounts {
+                            svg {
+                                width: 30px;
+                                height: 30px;
+                                path {
+                                    stroke-width: 4px;
+                                }
+                            }
+                        }
+                        .art_map_accounts,
                         .art_map_tyles,
                         .art_map_trafic {
                             width: 40px;
@@ -840,6 +850,11 @@
                     &>div:nth-of-type(2) {
                         &.art_btn {
                             top: ( ((25px * 2) + 5px) * 2);
+                        }
+                    }
+                    &>div:nth-of-type(3) {
+                        &.art_btn {
+                            top: ( ((25px * 2) + 5px) * 3);
                             .art_map_trafic {
                                 svg {
                                     width: 18px;

@@ -9,6 +9,7 @@ import  {ReactComponent as TyleType} from '../assets/images/TyleType.svg'
 import  {ReactComponent as TyleTypeFilled} from '../assets/images/TyleTypeFilled.svg'
 import  {ReactComponent as TraficType} from '../assets/images/TraficType.svg'
 import  {ReactComponent as TraficTypeFilled} from '../assets/images/TraficTypeFilled.svg'
+import  {ReactComponent as UserAccounts} from '../assets/images/UserAccounts.svg'
 
 import { fetchProducts } from './fetchProducts';
 import CustomBottomSheet from './customBottomSheet';
@@ -84,7 +85,7 @@ function results (res, Timer, setProducts, showBottomSheet, selectedDeviceRef) {
     }
 }
 
-function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
+function ReactGoogleMap({navigator, currentTab, setCurrentMapDevice}) {
     const [products, setProducts] = React.useState([]);
     const isMounted = React.useRef();
 
@@ -235,6 +236,12 @@ function ReactGoogleMap({currentTab, setCurrentMapDevice}) {
     return (
         <>
     <div style={{ /* height: '70vh', */ width: '100%' }}>
+        <Button onClick={() => {
+            navigator('accounts')
+        }}
+        className={"art_map_accounts"}
+        children={<UserAccounts /> }
+        />
         <Button onClick={() => {
             setMapType(mapType === 'ROADMAP'? 'HYBRID' : mapType === 'HYBRID'?'SATELLITE':'ROADMAP');
         }}

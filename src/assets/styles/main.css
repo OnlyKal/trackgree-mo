@@ -842,8 +842,21 @@ body #root {
   box-shadow: none;
 }
 
+.App .art_main.art_main_map > div:first-of-type .art_btn .art_map_accounts svg,
+.App .art_main.art_main_map > div:nth-of-type(2) .art_btn .art_map_accounts svg {
+  width: 30px;
+  height: 30px;
+}
+
+.App .art_main.art_main_map > div:first-of-type .art_btn .art_map_accounts svg path,
+.App .art_main.art_main_map > div:nth-of-type(2) .art_btn .art_map_accounts svg path {
+  stroke-width: 4px;
+}
+
+.App .art_main.art_main_map > div:first-of-type .art_btn .art_map_accounts,
 .App .art_main.art_main_map > div:first-of-type .art_btn .art_map_tyles,
 .App .art_main.art_main_map > div:first-of-type .art_btn .art_map_trafic,
+.App .art_main.art_main_map > div:nth-of-type(2) .art_btn .art_map_accounts,
 .App .art_main.art_main_map > div:nth-of-type(2) .art_btn .art_map_tyles,
 .App .art_main.art_main_map > div:nth-of-type(2) .art_btn .art_map_trafic {
   width: 40px;
@@ -859,14 +872,19 @@ body #root {
   top: 110px;
 }
 
-.App .art_main.art_main_map > div:first-of-type > div:nth-of-type(2).art_btn .art_map_trafic svg,
-.App .art_main.art_main_map > div:nth-of-type(2) > div:nth-of-type(2).art_btn .art_map_trafic svg {
+.App .art_main.art_main_map > div:first-of-type > div:nth-of-type(3).art_btn,
+.App .art_main.art_main_map > div:nth-of-type(2) > div:nth-of-type(3).art_btn {
+  top: 165px;
+}
+
+.App .art_main.art_main_map > div:first-of-type > div:nth-of-type(3).art_btn .art_map_trafic svg,
+.App .art_main.art_main_map > div:nth-of-type(2) > div:nth-of-type(3).art_btn .art_map_trafic svg {
   width: 18px;
   height: 30px;
 }
 
-.App .art_main.art_main_map > div:first-of-type > div:nth-of-type(2).art_btn .art_map_trafic svg rect,
-.App .art_main.art_main_map > div:nth-of-type(2) > div:nth-of-type(2).art_btn .art_map_trafic svg rect {
+.App .art_main.art_main_map > div:first-of-type > div:nth-of-type(3).art_btn .art_map_trafic svg rect,
+.App .art_main.art_main_map > div:nth-of-type(2) > div:nth-of-type(3).art_btn .art_map_trafic svg rect {
   fill: none;
 }
 
