@@ -1349,7 +1349,7 @@ body #root {
   border: 0;
   background: transparent;
   cursor: pointer;
-  color: #00a9ec;
+  color: #00af00;
 }
 
 .App .art_main.art_main_map .art_tracking_map .art_tracking_map_footer .art_bottom_options {
@@ -1358,8 +1358,9 @@ body #root {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-  justify-content: space-around;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -1369,11 +1370,20 @@ body #root {
 .App .art_main.art_main_map .art_tracking_map .art_tracking_map_footer .art_bottom_options .art_bottom_options_button {
   border: 0;
   background: rgba(30, 31, 31, 0);
+  color: var(--primaryColor);
   min-width: 32.33333%;
   min-height: 100%;
   cursor: pointer;
-  color: #00a9ec;
-  font-size: 13pt;
+  font-size: 12pt;
+  text-align: left;
+}
+
+.App .art_main.art_main_map .art_tracking_map .art_tracking_map_footer .art_bottom_options .art_bottom_options_button:nth-of-type(2) {
+  text-align: center;
+}
+
+.App .art_main.art_main_map .art_tracking_map .art_tracking_map_footer .art_bottom_options .art_bottom_options_button:nth-of-type(3) {
+  text-align: right;
 }
 
 .App .art_main_initial {

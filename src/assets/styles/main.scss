@@ -1296,7 +1296,8 @@ body {
                         background: transparent;
                         cursor: pointer;
                         // link color
-                        color: rgb(0, 169, 236);
+                        // color: rgb(0, 169, 236);
+                        color: #00af00;
                     }
                     .art_bottom_options {
                         width: 100%;
@@ -1304,8 +1305,9 @@ body {
                         display: -webkit-box;
                         display: -ms-flexbox;
                         display: flex;
-                        -ms-flex-pack: distribute;
-                        justify-content: space-around;
+                        -webkit-box-pack: justify;
+                        -ms-flex-pack: justify;
+                        justify-content: space-between;
                         -webkit-box-align: center;
                         -ms-flex-align: center;
                         align-items: center;
@@ -1313,12 +1315,19 @@ body {
                         .art_bottom_options_button {
                             border: 0;
                             background: rgba(30, 31, 31, 0);
-                            // color: var(--primaryColor);
+                            color: var(--primaryColor);
                             min-width: (100%/3) - 1;
                             min-height: 100%;
                             cursor: pointer;
-                            color: rgb(0, 169, 236);
-                            font-size: 13pt;
+                            // color: #00af00;
+                            font-size: 12pt;
+                            text-align: left;
+                            &:nth-of-type(2) {
+                                text-align: center;
+                            }
+                            &:nth-of-type(3) {
+                                text-align: right;
+                            }
                         }
                     }
                 }
