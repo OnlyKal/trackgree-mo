@@ -341,7 +341,7 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                         position.current = [firstPosition.lat, firstPosition.lng];
                     
 
-                        let CustomMarker = require("./CustomMarker/CustomMarker.js"), customMarker;
+                        let CustomMarker = require("./CustomMarker/CustomMarker.js").default, customMarker;
                         if (CustomMarker) {
                             customMarker = new CustomMarker({
                                 map: map,

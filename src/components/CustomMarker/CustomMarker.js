@@ -236,4 +236,4 @@ class CustomMarker extends window.google.maps.OverlayView {
 //     })
 // });
 
-module.exports = CustomMarker;
+export default CustomMarker;
