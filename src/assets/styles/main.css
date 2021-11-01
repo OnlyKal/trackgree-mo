@@ -1,5 +1,5 @@
 @charset "UTF-8";
-:root {
+*:root {
   --primaryColor: #007735;
   --SecondColor: #59A833;
   --textColor: #000503;
@@ -987,6 +987,16 @@ body #root {
   -o-border-radius: 5em;
 }
 
+.App .art_main.art_main_map_playback .art_playback_map_bottom_sheet .art_history_controller .art_time_repeat_controller,
+.App .art_main.art_main_map_playback .art_playback_map_bottom_sheet .art_history_controller .art_time_speed_controller {
+  margin: 0 0 0 5px;
+  font-size: 0.5rem;
+}
+
+.App .art_main.art_main_map_playback .art_playback_map_bottom_sheet .art_history_controller .art_time_speed_controller {
+  margin: 0;
+}
+
 .App .art_main.art_main_map_playback .art_playback_map_bottom_sheet .art_history_controller .art_history_data_item {
   width: 100%;
   text-align: center;
@@ -1315,6 +1325,17 @@ body #root {
   transform: rotate(-45deg);
 }
 
+.App .art_main.art_main_map .art_tracking_map .art_tracking_map_footer {
+  height: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
 .App .art_main.art_main_map .art_tracking_map .art_tracking_map_footer .art_tracking_map_footer_button {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1329,6 +1350,30 @@ body #root {
   background: transparent;
   cursor: pointer;
   color: #00a9ec;
+}
+
+.App .art_main.art_main_map .art_tracking_map .art_tracking_map_footer .art_bottom_options {
+  width: 100%;
+  height: 35px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 5px 0 0;
+}
+
+.App .art_main.art_main_map .art_tracking_map .art_tracking_map_footer .art_bottom_options .art_bottom_options_button {
+  border: 0;
+  background: rgba(30, 31, 31, 0);
+  min-width: 32.33333%;
+  min-height: 100%;
+  cursor: pointer;
+  color: #00a9ec;
+  font-size: 13pt;
 }
 
 .App .art_main_initial {
@@ -3373,6 +3418,14 @@ body #root {
   -ms-transform: inherit;
   -o-transform: inherit;
   width: 15px;
+}
+
+.App .art_h_custom_marker {
+  transition: .7s ease-out;
+  -webkit-transition: .7s ease-out;
+  -moz-transition: .7s ease-out;
+  -ms-transition: .7s ease-out;
+  -o-transition: .7s ease-out;
 }
 
 .gmnoprint {

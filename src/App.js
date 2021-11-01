@@ -156,7 +156,7 @@ const [currentMapDevice, setCurrentMapDevice] = useState('all');
     return (
       <div className="App">
         {/* HOME/DEVICES */}
-        { (currentPage.toLowerCase() === "map") ? <Map  navigator={setPage} setviewDevice={setviewDevice} setShowBottomBar={setShowBottomBar} setCurrentMapDevice={setCurrentMapDevice} currentTab={currentMapDevice} /> : "" }
+        { (currentPage.toLowerCase() === "map") ? <Map  navigator={setPage} setviewDevice={setviewDevice} setShowBottomBar={setShowBottomBar} setCurrentMapDevice={setCurrentMapDevice} currentTab={currentMapDevice} setdeviceData={setdeviceData} /> : "" }
         { (currentPage.toLowerCase() === "home") ? <Home  navigator={setPage} setviewDevice={setviewDevice} setShowBottomBar={setShowBottomBar} setCurrentMapDevice={setCurrentMapDevice} /> : "" }
         {/* SEARCH FIELD */}
         { (currentPage.toLowerCase() === "search") ? <Search  navigator={setPage} setSearchKeyword={setSearchKeyword} setviewDevice={setviewDevice} setShowBottomBar={setShowBottomBar} /> : "" }

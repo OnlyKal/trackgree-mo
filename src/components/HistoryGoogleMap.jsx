@@ -21,8 +21,8 @@ import  {ReactComponent as CarIdling2} from '../assets/images/mapIcons/single/ca
 import  {ReactComponent as CarMoving2} from '../assets/images/mapIcons/single/car_moving.svg'
 import  {ReactComponent as CarStopped2} from '../assets/images/mapIcons/single/car_stopped.svg'
 import  {ReactComponent as CarOffline2} from '../assets/images/mapIcons/single/car_offline.svg'
-import { Activity, Clock, FastForward, Pause, Play } from 'react-feather';
-import { getDistance } from './fetchProducts';
+import { Activity, Clock, FastForward, Pause, Play, Repeat } from 'react-feather';
+
 
 const mapIcons = {
     idling: CarIdling,
@@ -42,8 +42,6 @@ const {mapStyleDark, mapStyle} = styledStyles;
 
 function HistoryGoogleMap({navigator, deviceData, device}) {
 
-        
-
     const [isLoading, _setIsLoading] = React.useState(false);
     const setIsLoading = (value) => {
         _setIsLoading(value);
@@ -54,11 +52,15 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
     const [mapType, setMapType] = React.useState('ROADMAP');
     const [statusMsg, setStatusMsg] = React.useState("Loading ...");
     const [collapsedTimeCounter, setCollapsedTimeCounter] = React.useState(0);
+    const [mapLoaded, setMapLoaded] = React.useState(false);
+    // const [isReverse, setIsReverse] = React.useState(false);
 
     const mapRef = React.useRef(null);
     const mapsRef = React.useRef(null);
-    const animateMarker = React.useRef(null);
-    const animateCount= React.useRef(0);
+    // const animateMarker = React.useRef(null);
+    const isReverse = React.useRef(false);
+    const customAnimateMarker = React.useRef(null);
+    const animateCount= React.useRef(isReverse.current? deviceData.length-1 : 0);
     const fastForwardMode= [
         {
             delay: 2000,
@@ -89,11 +91,8 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
     const animateDelay = React.useRef(fastForwardMode[playMode].delay);
     const isAnimated = React.useRef(null);
     const position = React.useRef([]);
-    const numDeltas = React.useRef(0);
-
-
+    const polyline = React.useRef(null);
     let timer =  React.useRef(null);
-
     let isMounted = React.useRef(false);
 
     React.useEffect(() => {
@@ -164,19 +163,27 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
             }
         });
 
+
         function counterAnimation(animateCount, myIsPlaying) {
             let count = animateCount.current;
-            
 
-            count++;
+            isReverse.current ? count-- : count++;
 
             if (myIsPlaying) {
 
-                if (count > polylinePath.length - 1) {
+                
+                if (isReverse.current && (count <= 0)) {
+                    animateCount.current = polylinePath.length - 1;
+                    isAnimated.current = false;
+                    setIsPlaying(false);
+                    return clearTimeout(timer.current);
+                }
+
+                if (!isReverse.current && (count >= polylinePath.length - 1)) {
                     animateCount.current =0;
                     isAnimated.current = false;
                     setIsPlaying(false);
-                return clearTimeout(timer.current);
+                    return clearTimeout(timer.current);
                 }
 
                 let map = mapRef.current;
@@ -193,15 +200,37 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                 } else  {
                     _DeviceIcon = mapIcons.moving;
                 }
-                animateMarker.current.setIcon({
-                    url: _DeviceIcon,
-                    scaledSize: new maps.Size(13, 26),
-                    origin: new maps.Point(0, 0),
-                    anchor: new maps.Point(0, 0),
-                });
-            
-                animateMarker.current.setPosition(polylinePath[count]);
-                map.panTo(animateMarker.current.getPosition());
+                
+                if(customAnimateMarker.current){
+                    customAnimateMarker.current.setIcon({
+                        url: _DeviceIcon,
+                        scaledSize: new maps.Size(13, 26),
+                        origin: new maps.Point(0, 0),
+                        anchor: new maps.Point(0, 0),
+                    });
+                    customAnimateMarker.current.setPosition(
+                        {
+                            position: new maps.LatLng(deviceData[count].lat, deviceData[count].lng),
+                            rotation: deviceData[count].angle,
+                        }
+                    );
+                    
+                    // check if marker is within the map bounds
+                    if(!map.getBounds().contains(customAnimateMarker.current.getPosition())){
+                       
+                        let custMarkerEl = customAnimateMarker.current.getMarker();
+                        if (custMarkerEl){
+                            custMarkerEl.classList.remove('art_h_custom_marker');
+
+                            setTimeout(() => {
+                                custMarkerEl.classList.add('art_h_custom_marker');
+                            }, 5)
+                        }
+                        
+                       map.panTo(customAnimateMarker.current.getPosition());
+                    }
+                    
+                }
 
                 timer.current  = setTimeout(()=>{
                     animateCount.current = count;
@@ -212,8 +241,9 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
             }
 
             animateCount.current = count;
+            
             if (isMounted.current) {
-                if(animateCount.current > 0 && animateCount.current !== collapsedTimeCounter) {
+                if(animateCount.current >= 0 && animateCount.current !== collapsedTimeCounter) {
                     setCollapsedTimeCounter(animateCount.current);
                 }
             }
@@ -221,6 +251,7 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
         }
 
 
+        const newPlayMode = isPlaying ? <Pause /> : <Play />;
 
         return (
             <>
@@ -232,7 +263,8 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
             {isLoading && <Loader text={statusMsg} dismiss={setIsLoading}/>}
         <div style={{ width: '100%' }}>
             <Button onClick={() => {
-                setMapType(mapType === 'ROADMAP'? 'HYBRID' : mapType === 'HYBRID'?'SATELLITE':'ROADMAP');
+                const newLocal = mapType === 'HYBRID' ? 'SATELLITE' : 'ROADMAP';
+                setMapType(mapType === 'ROADMAP'? 'HYBRID' : newLocal);
             }}
             className={"art_map_tyles"}
             children={(mapType === 'HYBRID'||mapType === 'SATELLITE')? <TyleTypeFilled /> :<TyleType />  }
@@ -265,7 +297,7 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                     }, 5000);
 
                     // Create the polyline using the polylinePath
-                    new maps.Polyline({
+                     polyline.current = new maps.Polyline({
                         path: polylinePath,
                         strokeColor: '#5AA832',
                         strokeOpacity: 1.0,
@@ -307,29 +339,33 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
 
                         // Store first position
                         position.current = [firstPosition.lat, firstPosition.lng];
-                        // Store deltaLength from polylinePath
-                        numDeltas.current = polylinePath.length;
-                        // Create a marker for the first polyline path
-                        let marker2 = new maps.Marker({
-                            position: {lat:firstPosition.lat, lng:firstPosition.lng},
-                            map: map,
-                            icon: {
-                                url: mapIcons['moving'],
-                                scaledSize: new maps.Size(13, 26),
-                                anchor: new maps.Point(0, 0),
-                            },
-                            optimized: false,
-                            id: "#markerId2",
-                        });
-                        animateMarker.current = marker2;
+                    
 
-                        
+                        let CustomMarker = require("./CustomMarker/CustomMarker.js"), customMarker;
+                        if (CustomMarker) {
+                            customMarker = new CustomMarker({
+                                map: map,
+                                position: new maps.LatLng(firstPosition.lat, firstPosition.lng),
+                                icon: {
+                                    url: mapIcons['moving'],
+                                },
+                                rotation: deviceData[0].angle,
+                            });
+                            setTimeout(() => {
+                                let custMarkerEl = customMarker.getMarker();
 
-                        animateMarker.current.addListener("click", () => {
-                            map.setZoom(18);
-                            map.setCenter(animateMarker.current.getPosition());
-                        });
-        
+                                if (custMarkerEl){
+                                    custMarkerEl.addEventListener("click", () => {
+                                        map.setZoom(18);
+                                        map.setCenter(customMarker.getPosition());
+                                    });
+                                }
+
+                            })
+                            
+                        }
+                        customAnimateMarker.current = customMarker;
+                     
                         new maps.Marker({
                             position: polylinePath[polylinePath.length - 1],
                             map: map,
@@ -341,9 +377,12 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
 
                         // Fit map to the history bounds
                         map.fitBounds(bounds);
+                        setMapLoaded(true);
                     }
+
                 }}
                 onChange={() => {
+                    
                     if (mapRef.current) {
                         let lable = window.document.querySelector('a[href="'+mapRef.current.mapUrl+'"]');
                         if (lable) {
@@ -355,17 +394,43 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                             }, 500);
                         }
                     }
+                    if (customAnimateMarker.current){
+                        let custMarkerEl = customAnimateMarker.current.getMarker();
+                        if (custMarkerEl){
+                            custMarkerEl.classList.remove('art_h_custom_marker');
+
+                            setTimeout(() => {
+                                custMarkerEl.classList.add('art_h_custom_marker');
+                            }, 5)
+                        }
+                    }
+                }}
+                onZoomAnimationStart={() => {
+                    if (customAnimateMarker.current){
+                        let custMarkerEl = customAnimateMarker.current.getMarker();
+                        if (custMarkerEl){
+                            custMarkerEl.classList.remove('art_h_custom_marker');
+                        }
+                    }
+                }}
+                onZoomAnimationEnd={() => {
+                    if (customAnimateMarker.current){
+                        let custMarkerEl = customAnimateMarker.current.getMarker();
+                        if (custMarkerEl){
+                            custMarkerEl.classList.add('art_h_custom_marker');
+                        }
+                    }
                 }}
             >
         </GoogleMapReact>
         <div className="art_playback_map_bottom_sheet">
             <div className="art_history_controller">
                 
-                <button className="art_play_pause" onClick={() =>{
+                <button className="art_play_pause" onClick={() => {
                     let anime = isAnimated.current;
 
                     if(isPlaying && anime === null){
-                    isAnimated.current = true;
+                        isAnimated.current = true;
                     } else {
                         if (isAnimated.current === true) {
                             isAnimated.current = false;
@@ -386,7 +451,7 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                     }
                     if (isAnimated.current) {
                         if (anime === null){
-                            mapRef.current.setZoom(18);
+                            mapRef.current.setZoom(16);
                         }
                         counterAnimation(animateCount, true); 
                     } else {
@@ -395,7 +460,7 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                     
                 }}>
                     
-                    {isAnimated.current === null  ? <Play /> : isPlaying ? <Pause /> : <Play />}
+                    {isAnimated.current === null  ? <Play /> : newPlayMode}
                     
                 </button>
                 <div className="art_time_consumer_container">
@@ -423,6 +488,25 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                     <FastForward />
                     <span>{
                         fastForwardMode[playMode].title
+                    }</span>
+                </button>
+                <button className="art_time_repeat_controller"
+                onClick={() => {
+
+                    clearTimeout(timer.current);
+                    isReverse.current = !isReverse.current;
+
+                    setTimeout(() => {
+                        setIsPlaying(isAnimated.current);
+                        counterAnimation(animateCount, isAnimated.current);
+                    })
+                    
+                    
+                }}
+                >
+                    <Repeat />
+                    <span>{
+                        isReverse.current?"Forward":"Reverse"
                     }</span>
                 </button>
 
@@ -459,10 +543,10 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                                 </div>
                                 <div className="art_date_container">
                                     <span className="art_date_time">
-                                        {moment(deviceData[collapsedTimeCounter > 0?collapsedTimeCounter:deviceData.length-1].dt_tracker).format('HH:mm:ss')}
+                                        {moment(deviceData[collapsedTimeCounter >= 0?collapsedTimeCounter:deviceData.length-1].dt_tracker).format('HH:mm:ss')}
                                     </span>
                                     <div className="art_date_date">
-                                        {moment(deviceData[collapsedTimeCounter > 0?collapsedTimeCounter:deviceData.length-1].dt_tracker).format('DD.MM.YYYY')}
+                                        {moment(deviceData[collapsedTimeCounter >= 0?collapsedTimeCounter:deviceData.length-1].dt_tracker).format('DD.MM.YYYY')}
                                     </div>
                                 </div>
                             </div>
@@ -481,7 +565,9 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                                 <Odometer />
                             </span>
                             <div className="art_speed_value">
-                                {(getDistance({lat:deviceData[0].lat, lng:deviceData[0].lng}, {lat: deviceData[deviceData.length - 1].lat, lng:deviceData[deviceData.length - 1].lng})/1000).toFixed(2) + 'km'}
+                                {
+                                  mapLoaded && mapsRef.current &&mapsRef.current.geometry && (mapsRef.current.geometry.spherical.computeLength(polyline.current.getPath()) / 1000).toFixed(2) + 'km'
+                                }
                             </div>
 
                         </div>
@@ -513,8 +599,13 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
         </>
         );
     } catch (error) {
-        console.log(error);
-        navigator(localStorage.getItem('previousPage'))
+        console.error(error);
+        alert("Something went wrong, press ok to continue");
+
+        window.location.reload();
+        // navigator(localStorage.getItem('previousPage'))
     }
 }
+
+
 export default HistoryGoogleMap;

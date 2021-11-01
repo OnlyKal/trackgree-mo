@@ -7,7 +7,14 @@ function HeaderCommand({navigator, }) {
     return (
         <>
             <div className="art_option">
-                <Button onClick={()=>{navigator('home')}} className="art_null art_back_btn" children={<Back />} />
+                <Button onClick={()=>{
+                    let previousPage = localStorage.getItem('previousPage');
+                    if(previousPage){
+                        navigator(previousPage);
+                    } else{
+                        navigator('home')
+                    }
+                }} className="art_null art_back_btn" children={<Back />} />
             </div>
             <div className="art_option">
                 <h4>{"Command"}</h4>

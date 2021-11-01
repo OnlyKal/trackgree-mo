@@ -80,7 +80,7 @@ function results (res, Timer, setProducts, showBottomSheet, selectedDeviceRef) {
     }
 }
 
-function ReactGoogleMap({navigator, currentTab, setCurrentMapDevice}) {
+function ReactGoogleMap({navigator,setviewDevice, currentTab, setCurrentMapDevice}) {
     const [products, setProducts] = React.useState([]);
     const isMounted = React.useRef();
 
@@ -328,7 +328,7 @@ function ReactGoogleMap({navigator, currentTab, setCurrentMapDevice}) {
         
     </GoogleMapReact>
     {showBottomSheet &&
-    <CustomBottomSheet  selectedDeviceRef={selectedDeviceRef} mapRef={mapRef.current} setShowBottomSheet={setShowBottomSheet} />}
+    <CustomBottomSheet navigator={navigator} setviewDevice={setviewDevice} selectedDeviceRef={selectedDeviceRef} mapRef={mapRef.current} setShowBottomSheet={setShowBottomSheet} />}
     </div>
     </>
     );

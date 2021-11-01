@@ -6,13 +6,13 @@ import {ReactComponent as gpslev} from '../assets/images/sensors/gpsLevel.svg';
 import {ReactComponent as Odo} from '../assets/images/sensors/Odo.svg';
 import { GEOCODEAPI } from '../config';
 
-function CustomBottomSheet({selectedDeviceRef, setShowBottomSheet, mapRef}) {
-    let currentDevice = selectedDeviceRef;
-    selectedDeviceRef = currentDevice.current;
+function CustomBottomSheet({navigator,setviewDevice, selectedDeviceRef, setShowBottomSheet, mapRef}) {
+    selectedDeviceRef = selectedDeviceRef.current;
     const [dragging, setDragging] = React.useState(false);
     const [dragged, setDragged] = React.useState(false);
     const [pan, setPan] = React.useState({ x: 0, y: 190 });
     const [panStart, setPanStart] = React.useState({ x: 0, y: 0 });
+
     const slide_down = () => { 
         console.log('slide down');
     }
@@ -94,8 +94,8 @@ function CustomBottomSheet({selectedDeviceRef, setShowBottomSheet, mapRef}) {
                     <button className="art_tracking_map_header_button_button" onClick={(e)=>{
                         document.documentElement.style.setProperty('--bootSheetHeight', `0px`);
                         setShowBottomSheet(false);
-                        currentDevice.current = null;
-                        selectedDeviceRef = null;
+                        // currentDevice.current = null;
+                        selectedDeviceRef.current = null;
                         mapRef.setZoom(1);
 
                     }}> <X /></button>
@@ -189,6 +189,31 @@ function CustomBottomSheet({selectedDeviceRef, setShowBottomSheet, mapRef}) {
                 >
                     {'Fetch address'}
                 </button>
+                <div className="art_bottom_options">
+                    <button className="art_bottom_options_button" onClick={()=>{
+                        if (selectedDeviceRef) {
+                            setviewDevice(selectedDeviceRef);
+                            navigator("Devicedetails")
+                        }}}>
+                        { "Details" }
+                    </button>
+                    <button className="art_bottom_options_button" onClick={()=>{
+                        if (selectedDeviceRef) {
+                            setviewDevice(selectedDeviceRef);
+                            navigator("Command")
+                        }
+                        }}>
+                        { "Command" }
+                    </button>
+                    <button className="art_bottom_options_button" onClick={()=>{
+                        if (selectedDeviceRef) {
+                            setviewDevice(selectedDeviceRef);
+                            navigator("Playback")
+                        }
+                    }}>
+                        { "Playback" }
+                    </button>
+                </div>
             </div>
         </div>
     );

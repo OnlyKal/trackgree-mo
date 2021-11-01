@@ -1,17 +1,17 @@
-
 // CustomMarker.prototype = new window.google.maps.OverlayView();
 
 class CustomMarker extends window.google.maps.OverlayView {
     constructor(opts) {
         super();
-        // this.setValues(opts);
+
         this.position = opts.position;
         this.icon = opts.icon;
         this.rotation = opts.rotation;
         this.map = opts.map;
-
+        this.div = null;
+        this.img = null;
         this.setMap(this.map);
-    
+
     }
     draw() {
         var self = this;
@@ -20,73 +20,78 @@ class CustomMarker extends window.google.maps.OverlayView {
 
         if (!div) {
             div = this.div = document.createElement('div');
+            div.className = 'art_h_custom_marker';
             div.style.position = 'absolute';
             div.style.cursor = 'pointer';
             // add transition smoothness to the marker
             // div.style.transition = 'left 0.2s ease-in-out';
-            div.style.transform = 'rotate('+this.rotation+'deg)';
+            div.style.transform = 'rotate(' + this.rotation + 'deg)';
 
-            var img = document.createElement('img');
+            var img = this.img = document.createElement('img');
 
             img.src = this.icon.url;
             img.style.width = '13px';
             img.style.height = '26px';
-            img.style.transform = 'rotate('+this.rotation+'deg)';
+            // img.style.transform = 'rotate(' + this.rotation + 'deg)';
 
             div.appendChild(img);
 
-            
-            
+
+
             // this.pinWrap = this.div.getElementsByClassName('pin-wrap');
             // this.pin = this.div.getElementsByClassName('pin');
             // this.pinShadow = this.div.getElementsByClassName('shadow');
             // div.style.position = 'absolute';
             // div.style.cursor = 'pointer';
-            
+
             var panes = this.getPanes();
             panes.overlayImage.appendChild(div);
-            window.google.maps.event.addDomListener(div, "click", function (event) {
+            window.google.maps.event.addDomListener(div, "click", function(event) {
                 window.google.maps.event.trigger(self, "click", event);
             });
         }
         var point = this.getProjection().fromLatLngToDivPixel(this.position);
         if (point) {
-            div.style.left = point.x - 5 + 'px';
-            div.style.top = point.y - 5 + 'px';
+            div.style.left = point.x + 'px';
+            div.style.top = point.y - 18 + 'px';
         }
     }
-    // Update the marker position with animate transition
-    update = (latLng) => {console.log(latLng);
-        this.setValues(latLng.position);
-        var point = this.getProjection().fromLatLngToDivPixel(latLng);
-        
-        if (point) {
-            this.div.style.left = point.x + 'px';
-            this.div.style.top = point.y + 'px';
-        }
+    getPosition() {
+        return this.position;
     }
 
-    remove () {
+    remove() {
         // Check if the overlay was on the map and needs to be removed.
         if (this.div) {
-          this.div.parentNode.removeChild(this.div_);
-          this.div = null;
+            this.div.parentNode.removeChild(this.div_);
+            this.div = null;
         }
     }
 
     setPosition = function(opts) {
-        this.position  = opts.position;
-        this.rotation  = opts.rotation;
-          // Position the overlay 
-        var point = this.getProjection().fromLatLngToDivPixel(this.position );
+        this.position = opts.position;
+        this.rotation = opts.rotation;
+        // Position the overlay 
+        var point = this.getProjection().fromLatLngToDivPixel(this.position);
         if (point) {
             // add smooth transition to the marker
-            this.div.transition = 'left 0.2s ease-in-out';
-          this.div.style.left = point.x  + 'px';
-          this.div.style.top = point.y  + 'px';
-          this.div.style.transform = 'rotate('+this.rotation+2+'deg)';
+            // this.div.transition = ' 0.2s ease-in-out';
+            this.div.style.left = point.x + 'px';
+            this.div.style.top = point.y - 18 + 'px';
+            this.div.style.transform = 'rotate(' + this.rotation + 'deg)';
         }
-      }
+    }
+    setIcon = function(icon) {
+        this.icon = icon;
+        this.img.src = this.icon.url;
+    }
+    getIcon = function() {
+        return this.img;
+    }
+    getMarker = function() {
+        return this.div;
+    }
+
     // animateDrop() {
     //     dynamics.stop(this.pinWrap);
     //     dynamics.css(this.pinWrap, {
@@ -231,4 +236,4 @@ class CustomMarker extends window.google.maps.OverlayView {
 //     })
 // });
 
-export default CustomMarker;
+module.exports = CustomMarker;

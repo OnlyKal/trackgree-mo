@@ -3,17 +3,13 @@ import React from 'react';
 import Header from './Header';
 import HeaderEditDevice from './HeaderEditDevice';
 import {fetchHistory} from './fetchProducts.js';
-
 import  {ReactComponent as TyleType} from '../assets/images/TyleType.svg'
 import  {ReactComponent as DeviceIcon} from '../assets/images/DeviceIcon.svg'
-// import { DemoBlock } from 'demos'
-// import  Moment from 'react-moment';
 import moment from 'moment'
 import 'moment-timezone';
 import Button from './Button';
 import { Activity, ChevronRight, Clock } from 'react-feather';
 import Loader from './Loader';
-// import  'antd-mobile/dist/antd-mobile.css';
 
 function Playback({navigator, setdeviceData, device, setShowBottomBar, setSelectedUser}) {
     moment.tz.setDefault(moment.tz.guess(true)||Intl.DateTimeFormat().resolvedOptions().timeZone);
@@ -68,7 +64,6 @@ function Playback({navigator, setdeviceData, device, setShowBottomBar, setSelect
         return null
     }
     
-    // let moment = Moment;
     let historyTabs = [
         {
             title: 'Today',
@@ -115,7 +110,6 @@ function Playback({navigator, setdeviceData, device, setShowBottomBar, setSelect
             active: false
         },
     ];
-
 
     return (
         <div className="art_main art_main_initial">

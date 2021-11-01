@@ -76,26 +76,27 @@ function fetchProductsContinuously(Timer, currentTab, products, setProducts, set
     /* }, 10000 / 1); */
 }
 
-// function scrollSpy() {
-//     const scroll = window.scrollY;
-//     const body = document.querySelector('body');
-//     const header = document.querySelector('header');
-//     const headerHeight = header.offsetHeight;
-//     const headerHeightHalf = headerHeight / 2;
-//     const headerHeightQuarter = headerHeight / 4;
+// eslint-disable-next-line no-unused-vars
+function scrollSpy() {
+    const scroll = window.scrollY;
+    const body = document.querySelector('body');
+    const header = document.querySelector('header');
+    const headerHeight = header.offsetHeight;
+    const headerHeightHalf = headerHeight / 2;
+    const headerHeightQuarter = headerHeight / 4;
 
-//     if (scroll > headerHeightHalf) {
-//         body.classList.add('scrolled');
-//     } else {
-//         body.classList.remove('scrolled');
-//     }
+    if (scroll > headerHeightHalf) {
+        body.classList.add('scrolled');
+    } else {
+        body.classList.remove('scrolled');
+    }
 
-//     if (scroll > headerHeightQuarter) {
-//         header.classList.add('scrolled');
-//     } else {
-//         header.classList.remove('scrolled');
-//     }
-// }
+    if (scroll > headerHeightQuarter) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+}
 
 function handleSearch(search, db, setSearchKeyword, navigator, ignoreDB = false) {
     if (search.trim() !== '') {
@@ -256,7 +257,7 @@ function logout() {
 
 function rad(x) {
     return x * Math.PI / 180;
-};
+}
 
 function getDistance(p1, p2) {
     let R = 6378137; // Earth’s mean radius in meter
@@ -266,9 +267,9 @@ function getDistance(p1, p2) {
         Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) *
         Math.sin(dLong / 2) * Math.sin(dLong / 2);
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    let d = R * c;
-    return d; // returns the distance in meter
-};
+
+    return R * c; // returns the distance in meter
+}
 
 
 export { fetchProducts, fetchStats, fetchProductsContinuously, handleSearch, sendCommand, fetchGroups, setGroup, addGroup, fetchAccounts, fetchAccountsByID, fetchAccountTypes, createAccount, resetAccountPassword, updateAccountPassword, logout, fetchHistory, getDistance };
