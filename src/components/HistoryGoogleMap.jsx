@@ -208,6 +208,10 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                         origin: new maps.Point(0, 0),
                         anchor: new maps.Point(0, 0),
                     });
+                    let custMarkerEl = customAnimateMarker.current.getMarker();
+                    if (custMarkerEl && !custMarkerEl.classList.contains('art_h_custom_marker')) { 
+                        custMarkerEl.classList.add('art_h_custom_marker');
+                    }
                     customAnimateMarker.current.setPosition(
                         {
                             position: new maps.LatLng(deviceData[count].lat, deviceData[count].lng),
@@ -215,19 +219,25 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                         }
                     );
                     
-                    // check if marker is within the map bounds
+                    // check if marker is almost out of the map bounds
                     if(!map.getBounds().contains(customAnimateMarker.current.getPosition())){
                        
-                        let custMarkerEl = customAnimateMarker.current.getMarker();
                         if (custMarkerEl){
-                            custMarkerEl.classList.remove('art_h_custom_marker');
+                            // pause animation
+                            isAnimated.current = false;
 
                             setTimeout(() => {
-                                custMarkerEl.classList.add('art_h_custom_marker');
-                            }, 5)
+                                if (custMarkerEl.classList.contains('art_h_custom_marker')) { 
+                                    custMarkerEl.classList.remove('art_h_custom_marker');
+                                }
+                                map.panTo(customAnimateMarker.current.getPosition());
+                                map.panBy(customAnimateMarker.current.getPosition().lat(), customAnimateMarker.current.getPosition().lng());
+
+                                isAnimated.current = true;
+                            
+                            }, 1)
                         }
                         
-                       map.panTo(customAnimateMarker.current.getPosition());
                     }
                     
                 }
@@ -362,7 +372,17 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                                 }
 
                             })
-                            
+                            map.addListener("center_changed", () => {
+                                let custMarkerEl = customMarker.getMarker();
+
+                                if (custMarkerEl){
+                                    custMarkerEl.classList.remove('art_h_custom_marker');
+
+                                    setTimeout(() => {
+                                        custMarkerEl.classList.add('art_h_custom_marker');
+                                    }, 5)
+                                }
+                            });
                         }
                         customAnimateMarker.current = customMarker;
                      
@@ -400,7 +420,9 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                             custMarkerEl.classList.remove('art_h_custom_marker');
 
                             setTimeout(() => {
-                                custMarkerEl.classList.add('art_h_custom_marker');
+                                if (!isAnimated.current){
+                                    custMarkerEl.classList.add('art_h_custom_marker');
+                                }
                             }, 5)
                         }
                     }
@@ -414,13 +436,16 @@ function HistoryGoogleMap({navigator, deviceData, device}) {
                     }
                 }}
                 onZoomAnimationEnd={() => {
-                    if (customAnimateMarker.current){
+                    
+                    if (customAnimateMarker.current && isAnimated.current){
+
                         let custMarkerEl = customAnimateMarker.current.getMarker();
                         if (custMarkerEl){
                             custMarkerEl.classList.add('art_h_custom_marker');
                         }
                     }
                 }}
+                
             >
         </GoogleMapReact>
         <div className="art_playback_map_bottom_sheet">
