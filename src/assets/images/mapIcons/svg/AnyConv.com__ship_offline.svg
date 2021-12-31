@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone="yes"?>
+<svg width="48" height="48">
+<path style="fill:#ffffff; stroke:none;" d="M0 0L0 48L11 48L11 0L0 0z"/>
+<path style="fill:#d7d7d7; stroke:none;" d="M11 0L11 13L23 1L11 0z"/>
+<path style="fill:#a4a4a4; stroke:none;" d="M11 13C11 28.2664 11.103 55.2784 33 46L33 45C28.683 45 21.0445 46.4589 17.3179 43.9722C14.0623 41.7998 15.0015 36.3413 15 33C14.9953 22.4908 14.2536 17.9554 22 10C21.0576 5.21756 26.9424 5.21755 26 10L33 19L34 19C36.2991 9.31164 30.2507 7.28696 26 0L11 13z"/>
+<path style="fill:#dcdcdc; stroke:none;" d="M26 0L30 4L29 0L26 0z"/>
+<path style="fill:#fbfbfb; stroke:none;" d="M29 0L30 4L35 0L29 0z"/>
+<path style="fill:#c6c6c6; stroke:none;" d="M30 4C35.6806 14.0325 39.3058 37.6982 30 47L30 48L38 48L38 0L30 4z"/>
+<path style="fill:#ffffff; stroke:none;" d="M38 0L38 48L48 48L48 0L38 0z"/>
+<path style="fill:#cfcfcf; stroke:none;" d="M20 9L28 9C25.6704 4.79199 22.3296 4.79199 20 9z"/>
+<path style="fill:#838383; stroke:none;" d="M20 11L21 15C34.0211 15.1539 33 28.9543 33 39C27.8074 39 19.0796 37.0858 17 43L16 43L16 30C14.6871 33.1287 13.7253 40.4895 16.0278 43.3966C18.2486 46.2006 30.5968 46.2045 32.821 43.3966C39.2529 35.2767 34.6724 3.60062 20 11z"/>
+<path style="fill:#5b5b5b; stroke:none;" d="M16 18L22 12L16 18z"/>
+<path style="fill:#aaaaaa; stroke:none;" d="M19 16L19 17L30 18C27.4613 14.0841 23.0887 14.7919 19 16z"/>
+<path style="fill:#898989; stroke:none;" d="M15 16L15 27L16 27L18 24L18 23L18 19L18 18L15 16z"/>
+<path style="fill:#dadada; stroke:none;" d="M16 23L28 17C22.8844 15.4273 16.9435 17.4403 16 23z"/>
+<path style="fill:#f8f8f8; stroke:none;" d="M25 18L25 19L29 20L29 17L25 18z"/>
+<path style="fill:#d2d2d2; stroke:none;" d="M29 18L27 21L32 23L31 18L29 18z"/>
+<path style="fill:#a7a7a7; stroke:none;" d="M22 19L22 20L26 20L22 19z"/>
+<path style="fill:#4e4e4e; stroke:none;" d="M16 43L17 43C20.2024 37.5185 27.3961 39 33 39C33 34.7657 34.0256 28.8939 31.9722 25.044C28.6517 18.8185 19.2752 18.8074 16.2431 25.304C14.0742 29.9509 16 37.8791 16 43z"/>
+<path style="fill:#6d6d6d; stroke:none;" d="M19 26C19.0184 27.6471 18.9164 29.3833 19.2785 31.0054C21.8848 42.6793 37.1988 27.9487 24.0201 26.1335C22.3758 25.907 20.6538 26.0057 19 26z"/>
+<path style="fill:#cbcbcb; stroke:none;" d="M11 28L11 48L19 48L19 47C11.6004 43.2679 14.9973 34.7571 13 28L11 28z"/>
+</svg>

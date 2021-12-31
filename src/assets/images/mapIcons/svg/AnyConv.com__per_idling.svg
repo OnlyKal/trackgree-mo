@@ -1,0 +1,17 @@
+<?xml version="1.0" standalone="yes"?>
+<svg width="48" height="48">
+<path style="fill:#ffffff; stroke:none;" d="M0 0L0 48L48 48L48 0L0 0z"/>
+<path style="fill:#ffc600; stroke:none;" d="M12 10L12 38L23 38L14 10L12 10z"/>
+<path style="fill:#d09700; stroke:none;" d="M14 10L14 16L15 16L14 10z"/>
+<path style="fill:#480d00; stroke:none;" d="M15 10L15 16L33 17L33 10L26 10L26 13L22 13L23 10L15 10z"/>
+<path style="fill:#976c5e; stroke:none;" d="M22 13L26 10L22 13z"/>
+<path style="fill:#bb8100; stroke:none;" d="M33 10L33 16L34 16L33 10z"/>
+<path style="fill:#ffc600; stroke:none;" d="M34 10L25 38L37 38L37 10L34 10z"/>
+<path style="fill:#e49d7b; stroke:none;" d="M20 14C19.2283 19.7728 21.062 22.9892 26 26C29.5679 18.3237 28.6278 15.1217 20 14z"/>
+<path style="fill:#803d26; stroke:none;" d="M15 16L15 17L20 17L15 16z"/>
+<path style="fill:#c67142; stroke:none;" d="M16 17L25 26L25 25L19 17L16 17z"/>
+<path style="fill:#ca7745; stroke:none;" d="M29 17L27 24L28 24L33 17L29 17z"/>
+<path style="fill:#fff9e5; stroke:none;" d="M27 24L21 25L25 34L27 24z"/>
+<path style="fill:#e2be41; stroke:none;" d="M23 32L25 38L23 32z"/>
+<path style="fill:#ffdf72; stroke:none;" d="M25 33L24 36L25 33z"/>
+</svg>

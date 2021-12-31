@@ -1,0 +1,25 @@
+<?xml version="1.0" standalone="yes"?>
+<svg width="48" height="48">
+<path style="fill:#ffffff; stroke:none;" d="M0 0L0 48L48 48L48 0L0 0z"/>
+<path style="fill:#4d0e0b; stroke:none;" d="M15 4L18 35L19 35L19 22L30 22L30 21L20 21L17 18C17.0147 12.6679 16.854 7.77002 22 5L15 4z"/>
+<path style="fill:#ab8785; stroke:none;" d="M22 4L22 5L27 5L22 4z"/>
+<path style="fill:#4e0e0b; stroke:none;" d="M27 4L32 8L32 18L31 18L31 16L30 16L30 21L31 21L34 19L34 4L27 4z"/>
+<path style="fill:#87514f; stroke:none;" d="M18 8L22 5L18 8z"/>
+<path style="fill:#ffb6b2; stroke:none;" d="M22 5L22 6L27 6L22 5z"/>
+<path style="fill:#de4d47; stroke:none;" d="M18 8L18 9L29 8L28 5L18 8z"/>
+<path style="fill:#d10a01; stroke:none;" d="M27 7L17 9L17 18C22.3471 14.801 26.1088 12.4581 31 18L32 18L32 8L27 7z"/>
+<path style="fill:#811c18; stroke:none;" d="M21 14L21 15L28 15L21 14z"/>
+<path style="fill:#515151; stroke:none;" d="M19 15C19.8272 18.7948 21.1714 19.6956 25 20L26 15L19 15z"/>
+<path style="fill:#121212; stroke:none;" d="M25 20L20 20L20 21L30 21L30 15C26.597 15.5875 25.728 16.6494 25 20z"/>
+<path style="fill:#d70900; stroke:none;" d="M31 19L31 34L30 34L29 22L20 22L19 35L18 35L18 21L17 21L19 43C36.7053 43 29.177 31.5871 34 19L31 19z"/>
+<path style="fill:#c06b68; stroke:none;" d="M15.6667 20.3333L16.3333 20.6667L15.6667 20.3333z"/>
+<path style="fill:#4e0e0b; stroke:none;" d="M15 21L15 44L20 44L17 21L15 21z"/>
+<path style="fill:#4f4243; stroke:none;" d="M30 21L30 34L31 34L30 21z"/>
+<path style="fill:#4b0e0c; stroke:none;" d="M32 21L29 44L34 44L34 21L32 21z"/>
+<path style="fill:#715151; stroke:none;" d="M19 22L19 34L20 34L19 22z"/>
+<path style="fill:#824745; stroke:none;" d="M29 22L29 33L30 33L29 22z"/>
+<path style="fill:#80120d; stroke:none;" d="M20 34L20 35L28 35L20 34z"/>
+<path style="fill:#1c1f1e; stroke:none;" d="M28 34L20 35L20 37C22.6161 37 29.5413 38.0887 28 34z"/>
+<path style="fill:#2c4041; stroke:none;" d="M29 35L20 37L20 40C23.8148 39.9971 30.8588 40.6724 29 35z"/>
+<path style="fill:#930c06; stroke:none;" d="M20 43L20 44L29 44L20 43z"/>
+</svg>
