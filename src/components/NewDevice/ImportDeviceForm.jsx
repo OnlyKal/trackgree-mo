@@ -8,7 +8,7 @@ import QrCodeImage from "../../assets/images/qrscann.png";
 import {fetchModelData,addDevice} from './DeviceApi'
 import GetIMEIScannedBar from './ScanCodeCamera'
 import parse from 'html-react-parser'
-
+import {SuccessMessage,ErrorMessage} from '../PopupMessages'
 
 
 
@@ -41,7 +41,6 @@ function AddNewDeviceForm({navigator, setShowBottomBar, selectedUser, setSelecte
               allServices.push(service.data[obj])
             }
             setServiceData(allServices)
-            console.log(serviceData)
         })
        
 
@@ -128,12 +127,14 @@ function AddNewDeviceForm({navigator, setShowBottomBar, selectedUser, setSelecte
    }
 
 
-   const [applications,setApp]=useState('Car')
+   const [applications,setApp]=useState('Car') 
+   const [status,setStatus]=useState('')
     function ButtonNewDevice(){
             var imei=document.getElementById('imeis');
             var model=document.querySelector('#models');
             var subscription=document.querySelector('#subscription');
             var account=document.querySelector('#accounts');
+            
             let data={
                   imei:imei!=null?(imei.value).substring(0,imei.value.length-1):null,
                   model:model!=null?model.value:null,
@@ -141,7 +142,15 @@ function AddNewDeviceForm({navigator, setShowBottomBar, selectedUser, setSelecte
                   account:account!=null?account.value:null,
                   application:applications
             }
-            return <div style={style.btn} onClick={()=>addDevice(data)}>Save Device</div>
+            return  <div style={style.btn} onClick={()=>{
+                                   addDevice(data).then((res)=>{
+                                        const data=res.data
+                                       setStatus(data.status)
+                                   })
+                              }}>Save Device</div>
+                              
+                              // {status=='success'?<SuccessMessage/>:<ErrorMessage/>} 
+                    
    }
 
    function ElementModel({styleoF}){
@@ -430,7 +439,7 @@ function AddNewDeviceForm({navigator, setShowBottomBar, selectedUser, setSelecte
                 
                   <div style={style.application.subApp} onClick={()=>{ 
 
-setApp(app[10].title)
+                              setApp(app[10].title)
                               setcolorTaxi('#607D8B')
                               setcolorCar('#607D8B')
                               setcolorPassenger('#607D8B')
@@ -609,7 +618,7 @@ setApp(app[10].title)
     const [statusMsg, setStatusMsg] = React.useState("Loading ...");
     const [dismissLoader, setDismissLoader] = React.useState(false);
     
-    return <div className="art_main art_main_initial">
+    return <div className="art_main art_main_initial" style={{position:'relative'}}>
             <Header children={<HeaderEditDevice navigator={navigator} name={"Add new device"} back={previousPage} setShowBottomBar={setShowBottomBar} setSelectedUser={setSelectedUser} /> } navigator={navigator} />
             {isLoading && (dismissLoader)&& <Loader text={statusMsg} dismiss={setIsLoading}/>}
             {isLoading && (!dismissLoader)&& <Loader text={statusMsg} />}
@@ -629,6 +638,9 @@ setApp(app[10].title)
                   else console.log(err)}}/>:null}
                  {applicationData!=undefined&& applicationData!=null?<ElementApplication/>:null}
                  <ButtonNewDevice/>
+                 {status=='success'?<SuccessMessage message={'The device is successfully added !!'} />:null}
+                 {status!='success'&&status!=''?<ErrorMessage message={'Sorry, the operation is failed ... Try again!!'}/>:null}
+                
           </div>
 
     </div>

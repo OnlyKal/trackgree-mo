@@ -17,7 +17,7 @@ async function addDevice(data){
             url,data,{
                   headers:{authorization:"bearer " + localStorage.getItem('token').split('"').join('')}
             }
-      ).then((response)=>{console.log (response)}).catch((err)=>{console.log (err)})
+      ).then((response)=>{return response}).catch((err)=>{return err})
 }
 
 export {fetchModelData,addDevice}
