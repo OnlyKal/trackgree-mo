@@ -622,7 +622,6 @@ function AddNewDeviceForm({navigator, setShowBottomBar, selectedUser, setSelecte
             <Header children={<HeaderEditDevice navigator={navigator} name={"Add new device"} back={previousPage} setShowBottomBar={setShowBottomBar} setSelectedUser={setSelectedUser} /> } navigator={navigator} />
             {isLoading && (dismissLoader)&& <Loader text={statusMsg} dismiss={setIsLoading}/>}
             {isLoading && (!dismissLoader)&& <Loader text={statusMsg} />}
-
             <div>
                             
                  <ElementModel styleoF={style.main}/>

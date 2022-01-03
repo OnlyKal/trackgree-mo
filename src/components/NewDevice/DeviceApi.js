@@ -9,7 +9,6 @@ async function fetchModelData (action){
       else if(action=='application') url=API+'/devices/applications'
       else url=API+'/device/models'
       return  await axios.get(url,{headers:{ authorization: "bearer " + localStorage.getItem('token').split('"').join('')}}).then((response) => {return response;}).catch(err=>{return err});
-
 }
 async function addDevice(data){
       let url=API+'/device/add'
@@ -19,5 +18,4 @@ async function addDevice(data){
             }
       ).then((response)=>{return response}).catch((err)=>{return err})
 }
-
 export {fetchModelData,addDevice}

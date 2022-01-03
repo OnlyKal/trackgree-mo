@@ -14,7 +14,7 @@ export default function GetIMEIScannedBar({visibility,onUpdate}){
             justifyContent:'center',
             alignItems:'center',
             backgroundColor:'rgba(211,212,200,200)',
-            borderRadius:'2px'
+            borderRadius:'3px'
         },
     }
     return <div style={style.main} >
