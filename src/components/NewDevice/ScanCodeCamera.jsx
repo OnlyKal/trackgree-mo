@@ -1,4 +1,4 @@
-import BarcodeScannerComponent from 'react-qr-barcode-scanner'
+import BarcodeScannerComponent from 'react-qr-barcode-scanner';
 import React from "react";
 
 export default function GetIMEIScannedBar({visibility,onUpdate}){
@@ -16,7 +16,7 @@ export default function GetIMEIScannedBar({visibility,onUpdate}){
             backgroundColor:'rgba(211,212,200,200)',
             borderRadius:'3px'
         },
-    }
+    };
     return <div style={style.main} >
                   <BarcodeScannerComponent width={160} height={160} onUpdate={onUpdate}/>     
     </div>
