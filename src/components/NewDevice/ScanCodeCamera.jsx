@@ -4,7 +4,7 @@ import React from "react";
 export default function GetIMEIScannedBar({visibility,onUpdate}){
     let style={
         main:{
-            display:visibility,
+            display:{visibility},
             width:'200px',
             height:'200px',
             margin:'7px auto 7px auto',
